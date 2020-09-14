@@ -36,6 +36,7 @@ class _MainScreenState extends State<MainScreen> {
       drawer: Drawer(
         child: SingleChildScrollView(
           child: Container(
+            height: MediaQuery.of(context).size.height,
             // padding: EdgeInsets.all(10),
             color: Colors.blue,
             child: Column(

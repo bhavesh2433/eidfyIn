@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:edifyin/providers/otp_data.dart';
+
 import '../models/user_info.dart';
 
 import 'package:edifyin/models/drawer_item.dart';
@@ -89,7 +91,7 @@ class DisplayData with ChangeNotifier{
 
       // print(_loadedData);
 
-
+      // OtpData().fetchRegisterData();
 
     } catch (error) {
       throw error;

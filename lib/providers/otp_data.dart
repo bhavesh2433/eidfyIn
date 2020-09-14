@@ -1,3 +1,6 @@
+import 'dart:collection';
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
@@ -62,7 +65,33 @@ class OtpData with ChangeNotifier{
     final url = 'https://api.edifyin.teamin.in/Open/Register';
 
     final response = await http.get(url);
-    print(response.body);
+    final LinkedHashMap<String, dynamic> responseData = json.decode(response.body);
 
+    // responseData.forEach((element) {print(element);});
+    final HashMap<String, List<dynamic>> storeResponse = HashMap<String, dynamic>
+        .from(responseData.map(
+            (key, value) {
+              HashMap<String, dynamic> values = HashMap<String, dynamic>.from(value);
+              print(key);
+              print(value);
+              print(values);
+              return MapEntry(
+                  key.toString(),
+                  values.map((key2, value2) {
+                    // List<String> values2 = List<String>.from(value2);
+                    print(key2);
+                    print(value2);
+                    // print(values2);
+                    return MapEntry(
+                        key2.toString(),
+                        value2.toString(),);
+                        // values2.map((theValue) {
+                      // return theValue.toString();
+                    // })
+                    //   .toList());
+
+                  }));
+            }));
+    print(storeResponse);
 }
 }

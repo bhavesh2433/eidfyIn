@@ -1,3 +1,5 @@
+import 'package:edifyin/providers/otp_data.dart';
+
 import './providers/display_data.dart';
 import './screens/list_screen.dart';
 
@@ -27,6 +29,8 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (ctx) => DisplayData(),
+        ),ChangeNotifierProvider(
+          create: (ctx) => OtpData(),
         )
     ],
         child: MaterialApp(
