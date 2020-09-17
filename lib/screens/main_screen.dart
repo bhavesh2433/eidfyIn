@@ -19,8 +19,8 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     // final String orgCode = ModalRoute.of(context).settings.arguments;
-    final UserInfo loadedUser =
-        Provider.of<DisplayData>(context).userInfo;
+    // final UserInfo loadedUser =
+    //     Provider.of<DisplayData>(context).userInfo;
 
     // final loadedOrganisation = loadedOrg
     //     .firstWhere((organisation) =>
@@ -28,6 +28,9 @@ class _MainScreenState extends State<MainScreen> {
     final accessToken = Provider
         .of<Auth>(context)
         .token;
+
+    Provider.of<DisplayData>(context)
+        .fetchSchemaData(accessToken);
 
 
     // ModalRoute.of(context).settings.arguments as

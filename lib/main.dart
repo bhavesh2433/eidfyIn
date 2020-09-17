@@ -1,4 +1,5 @@
 import 'package:edifyin/providers/otp_data.dart';
+import 'package:edifyin/screens/authentication_screen.dart';
 
 import './providers/display_data.dart';
 import './screens/list_screen.dart';
@@ -11,6 +12,7 @@ import './screens/org_intro_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'screens/main_screen.dart';
+import './screens/otp_register_screen.dart';
 
 void main() async {
   runApp(MyApp());
@@ -41,10 +43,11 @@ class MyApp extends StatelessWidget {
                 accentColor: Colors.deepPurple,
                 accentColorBrightness: Brightness.dark,
             ),
-            home: OrgIntro(),
+            home: AuthenticationScreen(),
           routes: {
               MainScreen.routeName : (ctx) => MainScreen(),
-              ListScreen.routeName : (ctx) => ListScreen()
+              ListScreen.routeName : (ctx) => ListScreen(),
+              OtpRegister.routeName: (ctx) => OtpRegister()
           },
         ),
       );

@@ -48,58 +48,7 @@ class OrgData with ChangeNotifier{
       // Auth().authenticate();
     }
 
-    // //Fetching tokens
-    //
-    // final urlToken = 'https://api.edifyin.teamin.in/token';
-    //
-    // try {
-    //   final tokenResponse = await http.post(urlToken,
-    //       body: {
-    //     'username': '0007',
-    //     'password': 'testing1',
-    //     'grant_type': 'password',
-    //     'scope': 'org:B0C5B70A-5273-4B3A-865E-8E172F699C5A',
-    //     'client_id': 'android'
-    //   });
-    //   // print(tokenResponse.body);
-    //   final responseData = json.decode(tokenResponse.body) as Map<String, dynamic>;
-    //   _accessToken = responseData['access_token'];
-    //   _refreshToken = responseData['refresh_token'];
-    //   // _expiresIn = DateFormat().add.parse(responseData['expires']);
-    //   // print(_refreshToken);
-    // } catch (error) {
-    //   throw error;
-    // }
-    // // print(loadedOrganisation[0]);
-    //
-    //
-    // //fetching tokens using refresh_token
-    // final urlToken2 = 'https://api.edifyin.teamin.in/token';
-    //
-    // try {
-    //   final tokenResponse2 = await http.post(urlToken2,
-    //       body: {
-    //         'grant_type': 'refresh_token',
-    //         'refresh_token': _refreshToken,
-    //         'client_id': 'android'
-    //       });
-    //   // print(tokenResponse2.body);
-    //
-    //   final responseData = json.decode(tokenResponse2.body) as Map<String, dynamic>;
-    //   _accessToken = responseData['access_token'];
-    //   _refreshToken = responseData['refresh_token'];
-    //   // _expiresIn = DateFormat().add.parse(responseData['expires']);
-    //
-    //   // print('New Tokens');
-    //   // print(_accessToken);
-    //   // print(_refreshToken);
-    // } catch (error) {
-    //   throw error;
-    // }
-    //
-    //
-    //
-    //
+
     // //Fetching user info
     //
     // //Fetching data to be displayed in drawer
@@ -122,8 +71,29 @@ class OrgData with ChangeNotifier{
     //   throw error;
     // }
 
+    //To be omitted
 
+
+    //
+    // try {
+    //   final tokenResponse4 = await http.get(urlToken4, headers: {
+    //     'Authorization': 'Bearer $_accessToken'
+    //   }
+    //   );
+    //   // print(tokenResponse4.body);
+    //
+    //   // final responseData = json.decode(tokenResponse3.body) as Map<String, dynamic>;
+    //   // _expiresIn = DateFormat().add.parse(responseData['expires']);
+    //
+    //   // print('New Tokens');
+    //   // print(_accessToken);
+    //   // print(_refreshToken);
+    // } catch (error) {
+    //   throw error;
+    // }
   }
+
+
 
 
 

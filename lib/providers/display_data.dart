@@ -58,19 +58,13 @@ class DisplayData with ChangeNotifier{
 
       _displayData = loadedData.cast<DrawerItem>().toList();
 
-      // notifyListeners();
-    // loadedData.add(responseData.map((data) => print(data););
-      // print(loadedData[0]);
-
-      //Fetching user Info
-
       final urlUserInfo = 'https://api.edifyin.teamin.in/Common/Context/Defaults';
 
       final userInfoResponse = await http.get(urlUserInfo, headers: {
           'Authorization': 'Bearer $_accessToken'
         }
       );
-      // print(userInfoResponse.body);
+
       final _loadedUserInfo = [];
       final loadedInfo = json.decode(userInfoResponse.body) ;
 
@@ -87,14 +81,72 @@ class DisplayData with ChangeNotifier{
 
       _userInfo = _loadedUserInfo[0];
 
-      // print(loadedInfo['FriendlyName']);
-
-      // print(_loadedData);
 
       // OtpData().fetchRegisterData();
 
     } catch (error) {
       throw error;
     }
+  }
+
+  Future<void> fetchSchemaData(
+      String _accessToken,
+      // String con
+      ) async {
+    final urlSchema = Uri.https(
+        'api.edifyin.teamin.in',
+        '/Common/List/General/Schema',
+        {
+          'Con': 'Student-Learning-Assignments-List'
+        });
+
+    try {
+      final tokenResponse4 = await http.get(
+          urlSchema, headers: {
+        'Authorization': 'Bearer $_accessToken'
+      }
+      );
+      print(json.decode(tokenResponse4.body));
+
+      // final responseData = json.decode(tokenResponse3.body) as Map<String, dynamic>;
+      // _expiresIn = DateFormat().add.parse(responseData['expires']);
+
+      // print('New Tokens');
+      // print(_accessToken);
+      // print(_refreshToken);
+    } catch (error) {
+      throw error;
+    }
+
+  //Fetching ListData
+
+    final urlListData = Uri.https(
+        'api.edifyin.teamin.in',
+        '/Common/List/General/Data',
+        {
+          'PageSize': '10',
+          'Con': 'Student-Learning-Assignments-List',
+          'Page': '1'
+
+        });
+
+    try {
+      final listDataResponse = await http.get(
+          urlListData, headers: {
+        'Authorization': 'Bearer $_accessToken'
+      }
+      );
+      print(json.decode(listDataResponse.body));
+
+      // final responseData = json.decode(tokenResponse3.body) as Map<String, dynamic>;
+      // _expiresIn = DateFormat().add.parse(responseData['expires']);
+
+      // print('New Tokens');
+      // print(_accessToken);
+      // print(_refreshToken);
+    } catch (error) {
+      throw error;
+    }
+
   }
 }

@@ -30,6 +30,7 @@ dependencies:
   shared_preferences: ^0.5.3+1
   flutter_svg: ^0.17.0
   font_awesome_flutter: ^8.8.1
+  adobe_xd: ^1.0.0+1
 
 
 
@@ -58,7 +59,8 @@ flutter:
     - assets/Ellipse 2.svg
     - assets/Group 313.svg
     - assets/teamIN.svg
-    - assets/Image 1.svg
+    - assets/images/edifyin.png
+    - assets/images/team_in.png
     - assets/Image 2.svg
     - assets/Rectangle 28.svg
   #   - images/a_dot_ham.jpeg

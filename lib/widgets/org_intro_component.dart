@@ -1,4 +1,5 @@
 import 'package:edifyin/providers/otp_data.dart';
+import 'package:edifyin/screens/otp_register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/auth.dart';
@@ -54,12 +55,13 @@ class OrgIntroComponent extends StatelessWidget {
                     onPressed: () {
                       // DataGetter().fetchGUID(
                       //     _orgCodeController.text);
+                      Provider.of<OtpData>(context, listen: false)
+                          .fetchRegisterData();
                       Provider.of<Auth>(context, listen: false)
                           .authenticate('0007', 'testing1');
-                      // Provider.of<OtpData>(context, listen: false)
-                      //     .fetchRegisterData();
+
                       Navigator.of(context).pushReplacementNamed(
-                          MainScreen.routeName
+                          OtpRegister.routeName
                       );
                     }),
               ),
