@@ -1,5 +1,6 @@
 import 'package:edifyin/providers/otp_data.dart';
 import 'package:edifyin/screens/authentication_screen.dart';
+import 'package:edifyin/screens/login.dart';
 
 import './providers/display_data.dart';
 import './screens/list_screen.dart';
@@ -43,7 +44,7 @@ class MyApp extends StatelessWidget {
                 accentColor: Colors.deepPurple,
                 accentColorBrightness: Brightness.dark,
             ),
-            home: AuthenticationScreen(),
+            home: Login(),
           routes: {
               MainScreen.routeName : (ctx) => MainScreen(),
               ListScreen.routeName : (ctx) => ListScreen(),

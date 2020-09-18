@@ -1,217 +1,153 @@
-import 'package:flutter/material.dart';
-import 'package:adobe_xd/pinned.dart';
-import './NavBar1.dart';
-import 'package:adobe_xd/page_link.dart';
-import './registration.dart';
-import './authentication_screen.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'dart:io';
 
-class Login extends StatelessWidget {
+import 'package:adobe_xd/adobe_xd.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import '../screens/main_screen.dart';
+import '../screens/org_intro_screen.dart';
+import '../components/login_screen_components/login_button.dart';
+import '../components/login_screen_components/register_button.dart';
+import '../providers/auth.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
+
+class Login extends StatefulWidget {
   Login({
     Key key,
   }) : super(key: key);
+
+  @override
+  _LoginState createState() => _LoginState();
+}
+
+class _LoginState extends State<Login> {
+  final GlobalKey<FormState> _formKey = GlobalKey();
+  final _usernameController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _passwordFocusNode = FocusNode();
+
+  Map<String, String> _authData = {
+    'username': '',
+    'password': '',
+  };
+
+  var _isLoading = false;
+  var _registerAs = null;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _passwordFocusNode.dispose();
+    super.dispose();
+  }
+
+  void setRegisterAs(
+      String selectedRegisterAs,
+      BuildContext context) {
+    setState(() {
+      _registerAs = selectedRegisterAs;
+    });
+    Navigator.of(context).pop();
+    print(_registerAs);
+  }
+
+  void checkRegisterAs(BuildContext context) {
+    if (_registerAs == null)
+      showModalBottomSheet(
+          context: context,
+          backgroundColor: Colors.transparent,
+          builder: (_) {
+            return ModalBottomSheet(
+                setRegisterAs, context
+            );
+          });
+  }
+
+  void _showErrorDialog(String message) {
+    showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: Text('An Error Occured!'),
+          content: Text(message),
+          actions: <Widget>[
+            FlatButton(
+                onPressed: () {
+                  Navigator.of(ctx).pop();
+                },
+                child: Text('OK'))
+          ],
+        ));
+  }
+
+  Future<void> _submit() async {
+    if (!_formKey.currentState.validate()) {
+      return;
+    }
+    _formKey.currentState.save();
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      await Provider.of<Auth>(context, listen: false)
+          .login(_authData['username'], _authData['password']);
+      Navigator.of(context).pushReplacementNamed(MainScreen.routeName);
+    } on HttpException catch (error) {
+      var errorMessage = 'Authentication failed';
+      if (error.toString().contains('INVALID USERNAME')) {
+        errorMessage = 'This is not a valid email address.';
+      } else if (error.toString().contains('USERNAME NOT FOUND')) {
+        errorMessage = 'Could not find a user with that email.';
+      } else if (error.toString().contains('INVALID PASSWORD')) {
+        errorMessage = 'Invalid Password.';
+      }
+      _showErrorDialog(errorMessage);
+    } catch (error) {
+      const errorMessage = 'Could not authenticate you. Please try again later';
+      _showErrorDialog(errorMessage);
+    }
+
+    // Navigator.of(context).pushReplacementNamed(
+    //
+    // );
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context).size;
+
     return Scaffold(
-      backgroundColor: const Color(0xffffffff),
       body: Form(
-        child: Stack(
-          children: <Widget>[
-            Transform.translate(
-              offset: Offset(172.0, 761.0),
-              child: Text(
-                'Cancel',
-                style: TextStyle(
-                  fontFamily: 'Calibri',
-                  fontSize: 16,
-                  color: const Color(0xffffffff),
-                  fontWeight: FontWeight.w700,
-                ),
-                textAlign: TextAlign.left,
+        key: _formKey,
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              // Transform.translate(
+              //   offset: Offset(-120.0, 35.0),
+              //   child: SvgPicture.string(
+              //     '<svg viewBox="0.0 170.1 182.8 339.2" ><path transform="translate(183.32, -219.35)" d="M -1.202117919921875 689.7034912109375 L -1.202117919921875 673.0969848632813 C -1.202117919921875 672.4208984375 -0.9652442932128906 671.9002075195313 -0.6023025512695313 671.5265502929688 L -1.273345947265625 469.6636352539063 C -1.273345947265625 469.6636352539063 10.59738540649414 416.1797485351563 -58.00275039672852 406.65625 C -126.6034545898438 397.1327514648438 -170.7170257568359 366.0482788085938 -183.3209838867188 422.0003662109375 L -183.3209838867188 689.3286743164063 C -183.3209838867188 689.3286743164063 -175.7060394287109 713.6173706054688 -160.6072998046875 723.2318725585938 C -145.5090942382813 732.846923828125 -38.3757438659668 726.6300659179688 -38.3757438659668 726.6300659179688 C -38.3757438659668 726.6300659179688 -13.77724838256836 726.625 -1.029689788818359 690.6651000976563 C -1.137672424316406 690.388671875 -1.202117919921875 690.0709228515625 -1.202117919921875 689.7034912109375 Z" fill="#0098cd" fill-opacity="0.05" stroke="none" stroke-width="1" stroke-opacity="0.05" stroke-miterlimit="10" stroke-linecap="butt" /></svg>',
+              //     allowDrawingOutsideViewBox: true,
+              //     fit: BoxFit.fill,
+              //   ),
+              // ),
+              Transform.translate(
+                offset: Offset(-135.0, 50.0),
+                child: BackButton(),
               ),
-            ),
-            Transform.translate(
-              offset: Offset(119.6, 630.0),
-              child: SizedBox(
-                width: 149.0,
-                child: Text(
-                  'Forgot Password',
-                  style: TextStyle(
-                    fontFamily: 'Calibri',
-                    fontSize: 18,
-                    color: const Color(0xffffffff),
-                    fontWeight: FontWeight.w700,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ),
-            Container(),
-            Transform.translate(
-              offset: Offset(101.2, 744.0),
-              child: SizedBox(
-                width: 178.0,
-                child: Text(
-                  'Forgot password ?',
-                  style: TextStyle(
-                    fontFamily: 'Calibri',
-                    fontSize: 20,
-                    color: const Color(0xff707070),
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ),
-            Transform.translate(
-              offset: Offset(47.0, 554.0),
-              child: PageLink(
-                links: [
-                  PageLinkInfo(
-                    transition: LinkTransition.Fade,
-                    ease: Curves.easeOut,
-                    duration: 0.3,
-                    pageBuilder: () => NavBar1(),
-                  ),
-                ],
-                child: SizedBox(
-                  width: 292.0,
-                  height: 65.0,
-                  child: Stack(
-                    children: <Widget>[
-                      Pinned.fromSize(
-                        bounds: Rect.fromLTWH(0.0, 0.0, 292.0, 65.0),
-                        size: Size(292.0, 65.0),
-                        pinLeft: true,
-                        pinRight: true,
-                        pinTop: true,
-                        pinBottom: true,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(6.0),
-                            color: const Color(0xff4fc7f3),
-                            boxShadow: [
-                              BoxShadow(
-                                color: const Color(0x29000000),
-                                offset: Offset(0, 3),
-                                blurRadius: 6,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Pinned.fromSize(
-                        bounds: Rect.fromLTWH(105.0, 16.0, 73.0, 33.0),
-                        size: Size(292.0, 65.0),
-                        fixedWidth: true,
-                        fixedHeight: true,
-                        child: Text(
-                          'Log In',
-                          style: TextStyle(
-                            fontFamily: 'Segoe UI',
-                            fontSize: 25,
-                            color: const Color(0xffffffff),
-                            fontWeight: FontWeight.w500,
-                          ),
-                          textAlign: TextAlign.left,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            Transform.translate(
-              offset: Offset(44.0, 639.0),
-              child: PageLink(
-                links: [
-                  PageLinkInfo(
-                    transition: LinkTransition.Fade,
-                    ease: Curves.easeOut,
-                    duration: 0.3,
-                    pageBuilder: () => registration(),
-                  ),
-                ],
-                child: SizedBox(
-                  width: 292.0,
-                  height: 65.0,
-                  child: Stack(
-                    children: <Widget>[
-                      Pinned.fromSize(
-                        bounds: Rect.fromLTWH(0.0, 0.0, 292.0, 65.0),
-                        size: Size(292.0, 65.0),
-                        pinLeft: true,
-                        pinRight: true,
-                        pinTop: true,
-                        pinBottom: true,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(6.0),
-                            color: const Color(0xff4fc7f3),
-                            boxShadow: [
-                              BoxShadow(
-                                color: const Color(0x29000000),
-                                offset: Offset(0, 3),
-                                blurRadius: 6,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Pinned.fromSize(
-                        bounds: Rect.fromLTWH(98.0, 16.0, 96.0, 33.0),
-                        size: Size(292.0, 65.0),
-                        fixedWidth: true,
-                        fixedHeight: true,
-                        child: Text(
-                          'Register',
-                          style: TextStyle(
-                            fontFamily: 'Segoe UI',
-                            fontSize: 25,
-                            color: const Color(0xffffffff),
-                            fontWeight: FontWeight.w500,
-                          ),
-                          textAlign: TextAlign.left,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            Transform.translate(
-              offset: Offset(-6.0, 0.0),
-              child:
-              // Adobe XD layer: 'Top' (group)
               SizedBox(
-                width: 375.0,
-                height: 44.0,
-                child: Stack(
-                  children: <Widget>[
-                    Pinned.fromSize(
-                      bounds: Rect.fromLTWH(0.0, 0.0, 375.0, 44.0),
-                      size: Size(375.0, 44.0),
-                      pinLeft: true,
-                      pinRight: true,
-                      pinTop: true,
-                      pinBottom: true,
-                      child:
-                      // Adobe XD layer: 'Rectangle 5' (shape)
-                      Container(
-                        decoration: BoxDecoration(
-                          color: const Color(0x00ffffff),
-                        ),
-                      ),
-                    ),
-                    Container(),
-                  ],
-                ),
+                height: mediaQuery.height * 0.1,
               ),
-            ),
-            Transform.translate(
-              offset: Offset(116.0, 139.0),
-              child: Container(
-                width: 133.0,
-                height: 133.0,
+              Container(
+                width: mediaQuery.height * 0.2,
+                height: mediaQuery.height * 0.2,
                 decoration: BoxDecoration(
                   borderRadius:
                   BorderRadius.all(Radius.elliptical(9999.0, 9999.0)),
@@ -225,202 +161,410 @@ class Login extends StatelessWidget {
                   ],
                 ),
               ),
-            ),
-            Transform.translate(
-              offset: Offset(47.0, 333.0),
-              child: SizedBox(
-                width: 292.0,
-                height: 65.0,
-                child: Stack(
+              Center(
+                child: Column(
+                  // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    Pinned.fromSize(
-                      bounds: Rect.fromLTWH(0.0, 0.0, 292.0, 65.0),
-                      size: Size(292.0, 65.0),
-                      pinLeft: true,
-                      pinRight: true,
-                      pinTop: true,
-                      pinBottom: true,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(6.0),
-                          color: const Color(0xffffffff),
-                          boxShadow: [
-                            BoxShadow(
-                              color: const Color(0x29000000),
-                              offset: Offset(0, 3),
-                              blurRadius: 6,
-                            ),
-                          ],
-                        ),
-                      ),
+                    SizedBox(
+                      height: mediaQuery.height * 0.1,
                     ),
-                    Pinned.fromSize(
-                      bounds: Rect.fromLTWH(67.0, 21.0, 90.0, 23.0),
-                      size: Size(300.0, 65.0),
-                      fixedWidth: true,
-                      fixedHeight: true,
-                      child: Text(
-                        'Username',
-                        style: TextStyle(
-                          fontFamily: 'Calibri',
-                          fontSize: 19,
-                          color: const Color(0x80707070),
-                        ),
-                        textAlign: TextAlign.left,
-                      ),
-                    ),
-                    Pinned.fromSize(
-                      bounds: Rect.fromLTWH(34.5, 22.1, 18.5, 22.2),
-                      size: Size(292.0, 65.0),
-                      pinLeft: true,
-                      fixedWidth: true,
-                      fixedHeight: true,
-                      child:
-                      // Adobe XD layer: 'Icon feather-user-c…' (group)
-                      Stack(
-                        children: <Widget>[
-                          Pinned.fromSize(
-                            bounds: Rect.fromLTWH(0.0, 14.8, 18.5, 7.4),
-                            size: Size(18.5, 22.2),
-                            pinLeft: true,
-                            pinRight: true,
-                            pinBottom: true,
-                            fixedHeight: true,
-                            child: SvgPicture.string(
-                              _svg_2xndh5,
-                              allowDrawingOutsideViewBox: true,
-                              fit: BoxFit.fill,
-                            ),
+                    Container(
+                      width: mediaQuery.width * 0.8,
+                      padding: EdgeInsets.only(left: 5, right: 10),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(6.0),
+                        color: const Color(0xffffffff),
+                        boxShadow: [
+                          BoxShadow(
+                            color: const Color(0x29000000),
+                            offset: Offset(0, 3),
+                            blurRadius: 6,
                           ),
-                          Pinned.fromSize(
-                            bounds: Rect.fromLTWH(4.3, 0.0, 9.9, 9.9),
-                            size: Size(18.5, 22.2),
-                            pinLeft: true,
-                            pinRight: true,
-                            pinTop: true,
-                            fixedHeight: true,
-                            child: SvgPicture.string(
-                              _svg_ch919s,
-                              allowDrawingOutsideViewBox: true,
-                              fit: BoxFit.fill,
+                        ],
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          SizedBox(
+                            width: mediaQuery.width * 0.01,
+                          ),
+                          Column(
+                            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              SvgPicture.string(
+                                '<svg viewBox="4.3 0.0 9.9 9.9" ><path transform="translate(-2.44, -4.5)" d="M 16.61186790466309 9.430933952331543 C 16.61186790466309 12.15421390533447 14.40421390533447 14.36186790466309 11.68093395233154 14.36186790466309 C 8.957653999328613 14.36186790466309 6.750000953674316 12.15421390533447 6.75 9.430934906005859 C 6.75 6.707654476165771 8.957653999328613 4.499999523162842 11.68093490600586 4.500000476837158 C 14.40421390533447 4.500000476837158 16.61186790466309 6.707655906677246 16.61186790466309 9.430934906005859 Z" fill="#707070" stroke="none" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" /></svg>',
+                                allowDrawingOutsideViewBox: true,
+                                fit: BoxFit.fill,
+                              ),
+                              SizedBox(
+                                height: mediaQuery.height * 0.003,
+                              ),
+                              SvgPicture.string(
+                                '<svg viewBox="0.0 14.8 18.5 7.4" ><path transform="translate(-1.5, -7.71)" d="M 19.99100112915039 29.89640045166016 L 19.99100112915039 27.43093490600586 C 19.99100112915039 24.7076530456543 17.78334617614746 22.5 15.06006622314453 22.5 L 6.430933952331543 22.5 C 3.707653760910034 22.5 1.499999165534973 24.7076530456543 1.5 27.43093490600586 L 1.5 29.89640045166016" fill="#707070" stroke="none" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" /></svg>',
+                                allowDrawingOutsideViewBox: true,
+                                fit: BoxFit.fill,
+                              ),
+                            ],
+                          ),
+                          Container(
+                            width: mediaQuery.width * 0.65,
+                            child: TextFormField(
+                              decoration: InputDecoration(
+                                  labelText: 'Username',
+                                  labelStyle: TextStyle(
+                                    fontFamily: 'Calibri',
+                                    fontSize: 19,
+                                    color: const Color(0x80707070),
+                                  ),
+                                  border: InputBorder.none),
+                              onTap: () {
+                                if(_registerAs == null){
+                                  checkRegisterAs(context);
+                                }
+                              },
+                              controller: _usernameController,
+                              onFieldSubmitted: (_) {
+                                FocusScope.of(context)
+                                    .requestFocus(_passwordFocusNode);
+                              },
+                              textInputAction: TextInputAction.next,
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  _showErrorDialog('Please enter a Username!');
+                                }
+                                return null;
+                              },
+                              onSaved: (value) {
+                                _authData['username'] = value;
+                              },
+                              textAlign: TextAlign.start,
+                              textAlignVertical: TextAlignVertical.center,
                             ),
                           ),
                         ],
                       ),
                     ),
-                  ],
-                ),
-              ),
-            ),
-            Transform.translate(
-              offset: Offset(29.0, 87.0),
-              child: Container(
-                width: 52.0,
-                height: 52.0,
-                decoration: BoxDecoration(
-                  borderRadius:
-                  BorderRadius.all(Radius.elliptical(9999.0, 9999.0)),
-                  color: const Color(0xffffffff),
-                  boxShadow: [
-                    BoxShadow(
-                      color: const Color(0x29000000),
-                      offset: Offset(0, 3),
-                      blurRadius: 6,
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.03,
                     ),
-                  ],
-                ),
-              ),
-            ),
-            Transform.translate(
-              offset: Offset(50.0, 107.0),
-              child: PageLink(
-                links: [
-                  PageLinkInfo(
-                    transition: LinkTransition.Fade,
-                    ease: Curves.easeOut,
-                    duration: 0.3,
-                    pageBuilder: () => AuthenticationScreen(),
-                  ),
-                ],
-                child: SvgPicture.string(
-                  _svg_whzut5,
-                  allowDrawingOutsideViewBox: true,
-                ),
-              ),
-            ),
-            Transform.translate(
-              offset: Offset(47.0, 427.0),
-              child: SizedBox(
-                width: 292.0,
-                height: 65.0,
-                child: Stack(
-                  children: <Widget>[
-                    Pinned.fromSize(
-                      bounds: Rect.fromLTWH(0.0, 0.0, 292.0, 65.0),
-                      size: Size(292.0, 65.0),
-                      pinLeft: true,
-                      pinRight: true,
-                      pinTop: true,
-                      pinBottom: true,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(6.0),
-                          color: const Color(0xffffffff),
-                          boxShadow: [
-                            BoxShadow(
-                              color: const Color(0x29000000),
-                              offset: Offset(0, 3),
-                              blurRadius: 6,
+                    Container(
+                      width: mediaQuery.width * 0.8,
+                      padding: EdgeInsets.only(left: 5, right: 10),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(6.0),
+                        color: const Color(0xffffffff),
+                        boxShadow: [
+                          BoxShadow(
+                            color: const Color(0x29000000),
+                            offset: Offset(0, 3),
+                            blurRadius: 6,
+                          ),
+                        ],
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          SizedBox(
+                            width: mediaQuery.width * 0.01,
+                          ),
+                          SvgPicture.string(
+                            '<svg viewBox="83.1 383.5 17.2 24.3" ><path transform="matrix(-0.309017, -0.951057, 0.951057, -0.309017, 89.92, 407.8)" d="M 10.63298416137695 7.187304496765137 C 9.882543563842773 9.311787605285645 7.721067905426025 10.99234867095947 5.337630748748779 10.99234867095947 C 2.314734935760498 10.99234867095947 0 8.519070625305176 0 5.496174812316895 C 0 2.473278045654297 2.420430660247803 0 5.443326473236084 0 C 7.82676362991333 0 9.887828826904297 1.680560111999512 10.63298416137695 3.80504322052002 L 16.06574058532715 3.80504322052002 L 16.06574058532715 0.4227819442749023 L 19.71752548217773 0.4227819442749023 L 19.71752548217773 3.80504322052002 L 21.98469734191895 3.80504322052002 L 21.98469734191895 7.187304496765137 L 10.63298416137695 7.187304496765137 Z M 5.475035190582275 3.672924995422363 C 4.470926761627197 3.672924995422363 3.651785373687744 4.4920654296875 3.651785373687744 5.496174812316895 C 3.651785373687744 6.500283241271973 4.470926761627197 7.319422721862793 5.475035190582275 7.319422721862793 C 6.47914457321167 7.319422721862793 7.298285007476807 6.500283241271973 7.298285007476807 5.496174812316895 C 7.298285007476807 4.4920654296875 6.47914457321167 3.672924995422363 5.475035190582275 3.672924995422363 Z" fill="#707070" stroke="#ffffff" stroke-width="1" stroke-miterlimit="4" stroke-linecap="butt" /></svg>',
+                            allowDrawingOutsideViewBox: true,
+                            fit: BoxFit.fill,
+                          ),
+                          Container(
+                            width: mediaQuery.width * 0.65,
+                            child: TextFormField(
+                              decoration: InputDecoration(
+                                  labelText: 'Password',
+                                  labelStyle: TextStyle(
+                                    fontFamily: 'Calibri',
+                                    fontSize: 19,
+                                    color: const Color(0x80707070),
+                                  ),
+                                  border: InputBorder.none),
+                              obscureText: true,
+                              textAlign: TextAlign.left,
+                              controller: _passwordController,
+                              onFieldSubmitted: (_) {
+                                _submit();
+                              },
+                              focusNode: _passwordFocusNode,
+                              textInputAction: TextInputAction.done,
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  _showErrorDialog(
+                                      'Please enter a valid password');
+                                }
+                                return null;
+                              },
+                              onSaved: (value) {
+                                _authData['password'] = value;
+                              },
+                              textAlignVertical: TextAlignVertical.center,
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
-                    Pinned.fromSize(
-                      bounds: Rect.fromLTWH(65.0, 21.0, 90.0, 23.0),
-                      size: Size(292.0, 65.0),
-                      fixedWidth: true,
-                      fixedHeight: true,
-                      child: Text(
-                        'Password',
-                        style: TextStyle(
-                          fontFamily: 'Calibri',
-                          fontSize: 19,
-                          color: const Color(0x80707070),
-                        ),
-                        textAlign: TextAlign.left,
-                      ),
+                    SizedBox(
+                      height: mediaQuery.height * 0.09,
                     ),
-                    Pinned.fromSize(
-                      bounds: Rect.fromLTWH(33.1, 19.5, 17.2, 24.3),
-                      size: Size(292.0, 65.0),
-                      pinLeft: true,
-                      fixedWidth: true,
-                      fixedHeight: true,
-                      child:
-                      // Adobe XD layer: 'Icon ionic-md-key' (shape)
-                      SvgPicture.string(
-                        _svg_g186go,
-                        allowDrawingOutsideViewBox: true,
-                        fit: BoxFit.fill,
+                    if (_isLoading)
+                      CircularProgressIndicator()
+                    else
+                      LoginButton(),
+                    SizedBox(
+                      height: mediaQuery.height * 0.02,
+                    ),
+                    RegisterButton(),
+                    SizedBox(
+                      height: mediaQuery.height * 0.04,
+                    ),
+                    InkWell(
+                      child: SizedBox(
+                        width: 178.0,
+                        child: Text(
+                          'Forgot password ?',
+                          style: TextStyle(
+                            fontFamily: 'Calibri',
+                            fontSize: 20,
+                            color: const Color(0xff707070),
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
                       ),
+                      onTap: () {
+                        checkRegisterAs(context);
+                      },
+                      // padding:
+                      // EdgeInsets.symmetric(horizontal: 30.0, vertical: 4),
+                      // materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      // textColor: Theme.of(context).primaryColor,
                     ),
                   ],
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
   }
 }
 
-const String _svg_2xndh5 =
-    '<svg viewBox="0.0 14.8 18.5 7.4" ><path transform="translate(-1.5, -7.71)" d="M 19.99100112915039 29.89640045166016 L 19.99100112915039 27.43093490600586 C 19.99100112915039 24.7076530456543 17.78334617614746 22.5 15.06006622314453 22.5 L 6.430933952331543 22.5 C 3.707653760910034 22.5 1.499999165534973 24.7076530456543 1.5 27.43093490600586 L 1.5 29.89640045166016" fill="#707070" stroke="none" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" /></svg>';
-const String _svg_ch919s =
-    '<svg viewBox="4.3 0.0 9.9 9.9" ><path transform="translate(-2.44, -4.5)" d="M 16.61186790466309 9.430933952331543 C 16.61186790466309 12.15421390533447 14.40421390533447 14.36186790466309 11.68093395233154 14.36186790466309 C 8.957653999328613 14.36186790466309 6.750000953674316 12.15421390533447 6.75 9.430934906005859 C 6.75 6.707654476165771 8.957653999328613 4.499999523162842 11.68093490600586 4.500000476837158 C 14.40421390533447 4.500000476837158 16.61186790466309 6.707655906677246 16.61186790466309 9.430934906005859 Z" fill="#707070" stroke="none" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" /></svg>';
-const String _svg_g186go =
-    '<svg viewBox="83.1 383.5 17.2 24.3" ><path transform="matrix(-0.309017, -0.951057, 0.951057, -0.309017, 89.92, 407.8)" d="M 10.63298416137695 7.187304496765137 C 9.882543563842773 9.311787605285645 7.721067905426025 10.99234867095947 5.337630748748779 10.99234867095947 C 2.314734935760498 10.99234867095947 0 8.519070625305176 0 5.496174812316895 C 0 2.473278045654297 2.420430660247803 0 5.443326473236084 0 C 7.82676362991333 0 9.887828826904297 1.680560111999512 10.63298416137695 3.80504322052002 L 16.06574058532715 3.80504322052002 L 16.06574058532715 0.4227819442749023 L 19.71752548217773 0.4227819442749023 L 19.71752548217773 3.80504322052002 L 21.98469734191895 3.80504322052002 L 21.98469734191895 7.187304496765137 L 10.63298416137695 7.187304496765137 Z M 5.475035190582275 3.672924995422363 C 4.470926761627197 3.672924995422363 3.651785373687744 4.4920654296875 3.651785373687744 5.496174812316895 C 3.651785373687744 6.500283241271973 4.470926761627197 7.319422721862793 5.475035190582275 7.319422721862793 C 6.47914457321167 7.319422721862793 7.298285007476807 6.500283241271973 7.298285007476807 5.496174812316895 C 7.298285007476807 4.4920654296875 6.47914457321167 3.672924995422363 5.475035190582275 3.672924995422363 Z" fill="#707070" stroke="#ffffff" stroke-width="1" stroke-miterlimit="4" stroke-linecap="butt" /></svg>';
-const String _svg_whzut5 =
-    '<svg viewBox="50.0 107.0 6.6 12.3" ><path transform="translate(318.0, -1402.57)" d="M -261.3671569824219 1509.572509765625 L -268 1516.205322265625 L -261.3671569824219 1521.849609375" fill="none" stroke="#0089c4" stroke-width="4" stroke-miterlimit="4" stroke-linecap="round" /></svg>';
+class ModalBottomSheet extends StatelessWidget {
+
+  final Function(
+      String setSelected,
+      BuildContext context
+      ) setRegister;
+  final BuildContext ctx;
+
+  ModalBottomSheet(
+      this.setRegister,
+      this.ctx
+      );
+
+  @override
+  Widget build(BuildContext context) {
+    String selectedAs;
+    return Column(
+      children: <Widget>[
+        Container(
+          margin: EdgeInsets.only(left: 5, right: 5, bottom: 10),
+          height: MediaQuery.of(context).size.height * 0.4,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            color: const Color(0xffffffff),
+          ),
+          child: Column(
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.only(
+                  left: 5,
+                  right: 5,
+                  // bottom: 5
+                ),
+                // width: MediaQuery
+                //     .of(context)
+                //     .size
+                //     .width * 0.2,
+                height: MediaQuery.of(context).size.height * 0.08,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: const Color(0xffffffff),
+                ),
+                alignment: Alignment.center,
+                child: Text(
+                  'Register As',
+                  style: TextStyle(
+                    fontFamily: 'SF Pro Text',
+                    fontSize: 17,
+                    color: const Color(0xff656363),
+                    letterSpacing: -0.136,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  // textAlign: TextAlign.center,
+                ),
+              ),
+              Divider(
+                color: Colors.black,
+              ),
+              GestureDetector(
+                child: Container(
+                  margin: EdgeInsets.only(
+                    left: 5,
+                    right: 5,
+                    // bottom: 5
+                  ),
+                  // width: MediaQuery
+                  //     .of(context)
+                  //     .size
+                  //     .width * 0.2,
+                  height: MediaQuery.of(context).size.height * 0.08,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: const Color(0xffffffff),
+                  ),
+                  alignment: Alignment.center,
+                  child: Text(
+                    'Student',
+                    style: TextStyle(
+                      fontFamily: 'SF Pro Text',
+                      fontSize: 20,
+                      color: const Color(0xff007aff),
+                      letterSpacing: -0.48,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                onTap: () {
+                  setRegister('Student', ctx);
+                },
+              ),
+              Divider(
+                color: Colors.black,
+              ),
+              Container(
+                margin: EdgeInsets.only(
+                  left: 5,
+                  right: 5,
+                  // bottom: 5
+                ),
+                // width: MediaQuery
+                //     .of(context)
+                //     .size
+                //     .width * 0.2,
+                height: MediaQuery.of(context).size.height * 0.08,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: const Color(0xffffffff),
+                ),
+                alignment: Alignment.center,
+                child: Text(
+                  'Employee',
+                  style: TextStyle(
+                    fontFamily: 'SF Pro Text',
+                    fontSize: 20,
+                    color: const Color(0xff007aff),
+                    letterSpacing: -0.48,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              Divider(
+                color: Colors.black,
+              ),
+              Container(
+                margin: EdgeInsets.only(
+                  left: 5,
+                  right: 5,
+                  // bottom: 5
+                ),
+                // width: MediaQuery
+                //     .of(context)
+                //     .size
+                //     .width * 0.2,
+                height: MediaQuery.of(context).size.height * 0.08,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: const Color(0xffffffff),
+                ),
+                alignment: Alignment.center,
+                child: Text(
+                  'Parent',
+                  style: TextStyle(
+                    fontFamily: 'SF Pro Text',
+                    fontSize: 20,
+                    color: const Color(0xff007aff),
+                    letterSpacing: -0.48,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              )
+            ],
+          ),
+        ),
+        Container(
+          margin: EdgeInsets.only(left: 5, right: 5, bottom: 5),
+          // width: MediaQuery
+          //     .of(context)
+          //     .size
+          //     .width * 0.2,
+          height: MediaQuery.of(context).size.height * 0.1,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            color: const Color(0xffffffff),
+          ),
+          alignment: Alignment.center,
+          child: Text(
+            'Cancel',
+            style: TextStyle(
+              fontFamily: 'SF Pro Text',
+              fontSize: 20,
+              color: const Color(0xff494848),
+              letterSpacing: -0.48,
+              fontWeight: FontWeight.w600,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        )
+      ],
+    );
+  }
+}
+
+class BackButton extends StatelessWidget {
+  const BackButton({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      child: Container(
+          width: 52.0,
+          height: 52.0,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.elliptical(9999.0, 9999.0)),
+            color: const Color(0xffffffff),
+            boxShadow: [
+              BoxShadow(
+                color: const Color(0x29000000),
+                offset: Offset(0, 3),
+                blurRadius: 6,
+              ),
+            ],
+          ),
+          child: Icon(
+            Icons.arrow_back_ios,
+            color: Colors.blue,
+          )),
+      onTap: () {
+        Navigator.of(context).pop();
+      },
+    );
+  }
+}

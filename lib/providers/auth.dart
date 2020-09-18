@@ -32,7 +32,7 @@ class Auth with ChangeNotifier {
     return _refreshToken;
   }
 
-  Future<void> authenticate(
+  Future<void> _authenticate(
       String username,
       String password) async {
     final url = 'https://api.edifyin.teamin.in/token';
@@ -73,6 +73,9 @@ class Auth with ChangeNotifier {
     }
   }
 
+  Future<void> login(String username, String password) async {
+    return _authenticate(username, password);
+  }
   // Future<bool> tryAutoLogin() async {
   //   final prefs = await SharedPreferences.getInstance();
   //   if (!prefs.containsKey('userData')) {

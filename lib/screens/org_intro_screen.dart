@@ -150,7 +150,7 @@ class OrgIntro extends StatelessWidget {
                       // Provider.of<OtpData>(context, listen: false)
                       //     .fetchRegisterData();
                       await Provider.of<Auth>(context, listen: false)
-                          .authenticate('0007', 'testing1');
+                          .login('0007', 'testing1');
 
                       Navigator.of(context).pushReplacementNamed(
                           MainScreen.routeName
