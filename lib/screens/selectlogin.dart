@@ -442,8 +442,7 @@ class selectlogin extends StatelessWidget {
                                   ),
                                 ),
                                 Pinned.fromSize(
-                                  bounds:
-                                      Rect.fromLTWH(
+                                  bounds: Rect.fromLTWH(
                                       MediaQuery.of(context).size.width * 0.38,
                                       13.0,
                                       100.0,
