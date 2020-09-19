@@ -251,7 +251,7 @@ class select extends StatelessWidget {
                   transition: LinkTransition.Fade,
                   ease: Curves.easeOut,
                   duration: 0.3,
-                  pageBuilder: () => register(),
+                  pageBuilder: () => RegisterScreen(),
                 ),
               ],
               child: SizedBox(

@@ -14,11 +14,6 @@ import './auth.dart';
 class OrgData with ChangeNotifier{
   List<OrganisationItem> _organisation = [];
 
-  String _accessToken;
-  String _refreshToken;
-  DateTime _expiresIn;
-  Timer _authTimer;
-
 
   List<OrganisationItem> get organisation {
     return [..._organisation];
@@ -32,7 +27,7 @@ class OrgData with ChangeNotifier{
         'https://api.edifyin.teamin.in/Developer/Organisation/Clients/Client/ByCode/$orgCode';
     final response = await http.get(url);
     List<OrganisationItem> loadedOrganisation = [];
-    final extractedData = json.decode(response.body) as Map<String, dynamic>;
+    final extractedData = json.decode(response.body);
     if (extractedData == null) {
       print('no Data');
       return null;
@@ -43,6 +38,7 @@ class OrgData with ChangeNotifier{
       );
 
       _organisation = loadedOrganisation.toList();
+      print(_organisation);
       notifyListeners();
       // print("guid: ${extractedData['GUID']}");
       // Auth().authenticate();

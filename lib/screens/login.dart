@@ -1,10 +1,13 @@
-import 'dart:io';
 
-import 'package:adobe_xd/adobe_xd.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import '../screens/main_screen.dart';
-import '../screens/org_intro_screen.dart';
+import '../models/http_exception.dart';
+import '../screens/home_screen.dart';
+import '../components/back_button.dart';
+
+
+
+import '../widgets/modal_bottom_sheet.dart';
 import '../components/login_screen_components/login_button.dart';
 import '../components/login_screen_components/register_button.dart';
 import '../providers/auth.dart';
@@ -12,6 +15,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 class Login extends StatefulWidget {
+  static const routeName = '/login';
   Login({
     Key key,
   }) : super(key: key);
@@ -31,13 +35,13 @@ class _LoginState extends State<Login> {
     'password': '',
   };
 
-  var _isLoading = false;
-  var _registerAs = null;
+  Map<String, String> otpData = {
+    'orgCode': '',
+    'registrationTypeText': ''
+  };
 
-  @override
-  void initState() {
-    super.initState();
-  }
+  String _registerAs = null;
+  bool _isLoading = false;
 
   @override
   void dispose() {
@@ -50,19 +54,22 @@ class _LoginState extends State<Login> {
       BuildContext context) {
     setState(() {
       _registerAs = selectedRegisterAs;
+      otpData['registrationTypeText'] = _registerAs;
     });
     Navigator.of(context).pop();
     print(_registerAs);
   }
 
-  void checkRegisterAs(BuildContext context) {
+  void checkRegisterAs(BuildContext context, String orgCode) {
     if (_registerAs == null)
       showModalBottomSheet(
           context: context,
           backgroundColor: Colors.transparent,
           builder: (_) {
             return ModalBottomSheet(
-                setRegisterAs, context
+                setRegisterAs,
+              context,
+              orgCode
             );
           });
   }
@@ -71,19 +78,19 @@ class _LoginState extends State<Login> {
     showDialog(
         context: context,
         builder: (ctx) => AlertDialog(
-          title: Text('An Error Occured!'),
-          content: Text(message),
-          actions: <Widget>[
-            FlatButton(
-                onPressed: () {
-                  Navigator.of(ctx).pop();
-                },
-                child: Text('OK'))
-          ],
-        ));
+              title: Text('An Error Occured!'),
+              content: Text(message),
+              actions: <Widget>[
+                FlatButton(
+                    onPressed: () {
+                      Navigator.of(ctx).pop();
+                    },
+                    child: Text('OK'))
+              ],
+            ));
   }
 
-  Future<void> _submit() async {
+  Future<void> submit() async {
     if (!_formKey.currentState.validate()) {
       return;
     }
@@ -95,8 +102,12 @@ class _LoginState extends State<Login> {
 
     try {
       await Provider.of<Auth>(context, listen: false)
-          .login(_authData['username'], _authData['password']);
-      Navigator.of(context).pushReplacementNamed(MainScreen.routeName);
+          .login(
+          _authData['username'],
+          _authData['password']
+      );
+      Navigator.of(context)
+          .pushReplacementNamed(HomeScreen.routeName);
     } on HttpException catch (error) {
       var errorMessage = 'Authentication failed';
       if (error.toString().contains('INVALID USERNAME')) {
@@ -108,13 +119,9 @@ class _LoginState extends State<Login> {
       }
       _showErrorDialog(errorMessage);
     } catch (error) {
-      const errorMessage = 'Could not authenticate you. Please try again later';
-      _showErrorDialog(errorMessage);
+      throw HttpException(error);
     }
 
-    // Navigator.of(context).pushReplacementNamed(
-    //
-    // );
     setState(() {
       _isLoading = false;
     });
@@ -123,6 +130,9 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context).size;
+
+    final orgCode = ModalRoute.of(context)
+        .settings.arguments as String;
 
     return Scaffold(
       body: Form(
@@ -140,7 +150,7 @@ class _LoginState extends State<Login> {
               // ),
               Transform.translate(
                 offset: Offset(-135.0, 50.0),
-                child: BackButton(),
+                child: BackwardButton(),
               ),
               SizedBox(
                 height: mediaQuery.height * 0.1,
@@ -150,7 +160,7 @@ class _LoginState extends State<Login> {
                 height: mediaQuery.height * 0.2,
                 decoration: BoxDecoration(
                   borderRadius:
-                  BorderRadius.all(Radius.elliptical(9999.0, 9999.0)),
+                      BorderRadius.all(Radius.elliptical(9999.0, 9999.0)),
                   color: const Color(0xffffffff),
                   boxShadow: [
                     BoxShadow(
@@ -218,11 +228,6 @@ class _LoginState extends State<Login> {
                                     color: const Color(0x80707070),
                                   ),
                                   border: InputBorder.none),
-                              onTap: () {
-                                if(_registerAs == null){
-                                  checkRegisterAs(context);
-                                }
-                              },
                               controller: _usernameController,
                               onFieldSubmitted: (_) {
                                 FocusScope.of(context)
@@ -236,6 +241,7 @@ class _LoginState extends State<Login> {
                                 return null;
                               },
                               onSaved: (value) {
+                                print(value);
                                 _authData['username'] = value;
                               },
                               textAlign: TextAlign.start,
@@ -288,7 +294,7 @@ class _LoginState extends State<Login> {
                               textAlign: TextAlign.left,
                               controller: _passwordController,
                               onFieldSubmitted: (_) {
-                                _submit();
+                                submit();
                               },
                               focusNode: _passwordFocusNode,
                               textInputAction: TextInputAction.done,
@@ -300,6 +306,7 @@ class _LoginState extends State<Login> {
                                 return null;
                               },
                               onSaved: (value) {
+                                print(value);
                                 _authData['password'] = value;
                               },
                               textAlignVertical: TextAlignVertical.center,
@@ -314,11 +321,15 @@ class _LoginState extends State<Login> {
                     if (_isLoading)
                       CircularProgressIndicator()
                     else
-                      LoginButton(),
+                      LoginButton(submit),
                     SizedBox(
                       height: mediaQuery.height * 0.02,
                     ),
-                    RegisterButton(),
+                    RegisterButton(
+                        checkRegisterAs,
+                        orgCode,
+                        _isLoading
+                    ),
                     SizedBox(
                       height: mediaQuery.height * 0.04,
                     ),
@@ -336,7 +347,7 @@ class _LoginState extends State<Login> {
                         ),
                       ),
                       onTap: () {
-                        checkRegisterAs(context);
+
                       },
                       // padding:
                       // EdgeInsets.symmetric(horizontal: 30.0, vertical: 4),
@@ -354,217 +365,3 @@ class _LoginState extends State<Login> {
   }
 }
 
-class ModalBottomSheet extends StatelessWidget {
-
-  final Function(
-      String setSelected,
-      BuildContext context
-      ) setRegister;
-  final BuildContext ctx;
-
-  ModalBottomSheet(
-      this.setRegister,
-      this.ctx
-      );
-
-  @override
-  Widget build(BuildContext context) {
-    String selectedAs;
-    return Column(
-      children: <Widget>[
-        Container(
-          margin: EdgeInsets.only(left: 5, right: 5, bottom: 10),
-          height: MediaQuery.of(context).size.height * 0.4,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            color: const Color(0xffffffff),
-          ),
-          child: Column(
-            children: <Widget>[
-              Container(
-                margin: EdgeInsets.only(
-                  left: 5,
-                  right: 5,
-                  // bottom: 5
-                ),
-                // width: MediaQuery
-                //     .of(context)
-                //     .size
-                //     .width * 0.2,
-                height: MediaQuery.of(context).size.height * 0.08,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: const Color(0xffffffff),
-                ),
-                alignment: Alignment.center,
-                child: Text(
-                  'Register As',
-                  style: TextStyle(
-                    fontFamily: 'SF Pro Text',
-                    fontSize: 17,
-                    color: const Color(0xff656363),
-                    letterSpacing: -0.136,
-                    fontWeight: FontWeight.w600,
-                  ),
-                  // textAlign: TextAlign.center,
-                ),
-              ),
-              Divider(
-                color: Colors.black,
-              ),
-              GestureDetector(
-                child: Container(
-                  margin: EdgeInsets.only(
-                    left: 5,
-                    right: 5,
-                    // bottom: 5
-                  ),
-                  // width: MediaQuery
-                  //     .of(context)
-                  //     .size
-                  //     .width * 0.2,
-                  height: MediaQuery.of(context).size.height * 0.08,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: const Color(0xffffffff),
-                  ),
-                  alignment: Alignment.center,
-                  child: Text(
-                    'Student',
-                    style: TextStyle(
-                      fontFamily: 'SF Pro Text',
-                      fontSize: 20,
-                      color: const Color(0xff007aff),
-                      letterSpacing: -0.48,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                onTap: () {
-                  setRegister('Student', ctx);
-                },
-              ),
-              Divider(
-                color: Colors.black,
-              ),
-              Container(
-                margin: EdgeInsets.only(
-                  left: 5,
-                  right: 5,
-                  // bottom: 5
-                ),
-                // width: MediaQuery
-                //     .of(context)
-                //     .size
-                //     .width * 0.2,
-                height: MediaQuery.of(context).size.height * 0.08,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: const Color(0xffffffff),
-                ),
-                alignment: Alignment.center,
-                child: Text(
-                  'Employee',
-                  style: TextStyle(
-                    fontFamily: 'SF Pro Text',
-                    fontSize: 20,
-                    color: const Color(0xff007aff),
-                    letterSpacing: -0.48,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              Divider(
-                color: Colors.black,
-              ),
-              Container(
-                margin: EdgeInsets.only(
-                  left: 5,
-                  right: 5,
-                  // bottom: 5
-                ),
-                // width: MediaQuery
-                //     .of(context)
-                //     .size
-                //     .width * 0.2,
-                height: MediaQuery.of(context).size.height * 0.08,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: const Color(0xffffffff),
-                ),
-                alignment: Alignment.center,
-                child: Text(
-                  'Parent',
-                  style: TextStyle(
-                    fontFamily: 'SF Pro Text',
-                    fontSize: 20,
-                    color: const Color(0xff007aff),
-                    letterSpacing: -0.48,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              )
-            ],
-          ),
-        ),
-        Container(
-          margin: EdgeInsets.only(left: 5, right: 5, bottom: 5),
-          // width: MediaQuery
-          //     .of(context)
-          //     .size
-          //     .width * 0.2,
-          height: MediaQuery.of(context).size.height * 0.1,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            color: const Color(0xffffffff),
-          ),
-          alignment: Alignment.center,
-          child: Text(
-            'Cancel',
-            style: TextStyle(
-              fontFamily: 'SF Pro Text',
-              fontSize: 20,
-              color: const Color(0xff494848),
-              letterSpacing: -0.48,
-              fontWeight: FontWeight.w600,
-            ),
-            textAlign: TextAlign.center,
-          ),
-        )
-      ],
-    );
-  }
-}
-
-class BackButton extends StatelessWidget {
-  const BackButton({
-    Key key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      child: Container(
-          width: 52.0,
-          height: 52.0,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.elliptical(9999.0, 9999.0)),
-            color: const Color(0xffffffff),
-            boxShadow: [
-              BoxShadow(
-                color: const Color(0x29000000),
-                offset: Offset(0, 3),
-                blurRadius: 6,
-              ),
-            ],
-          ),
-          child: Icon(
-            Icons.arrow_back_ios,
-            color: Colors.blue,
-          )),
-      onTap: () {
-        Navigator.of(context).pop();
-      },
-    );
-  }
-}

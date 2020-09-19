@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 class LoginButton extends StatelessWidget {
-  const LoginButton({
-    Key key,
-  }) : super(key: key);
+
+  final Function submit;
+
+  LoginButton(this.submit);
 
   @override
   Widget build(BuildContext context) {
@@ -12,6 +13,13 @@ class LoginButton extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(6.0),
           color: const Color(0xff4fc7f3),
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0x29000000),
+              offset: Offset(0, 3),
+              blurRadius: 6,
+            ),
+          ],
         ),
         width: MediaQuery.of(context).size.width * 0.7,
         height: MediaQuery.of(context).size.height * 0.07,
@@ -29,7 +37,7 @@ class LoginButton extends StatelessWidget {
         ),
       ),
       onTap: () {
-
+        submit();
       },
     );
   }

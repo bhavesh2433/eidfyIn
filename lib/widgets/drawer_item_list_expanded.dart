@@ -1,6 +1,6 @@
 import 'dart:math';
 import '../screens/list_screen.dart';
-import 'package:edifyin/providers/display_data.dart';
+import '../providers/display_data.dart';
 import 'package:flutter/material.dart';
 
 class DrawerItemListExpanded extends StatefulWidget {

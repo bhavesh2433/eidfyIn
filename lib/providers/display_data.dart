@@ -1,9 +1,9 @@
 import 'dart:convert';
-import 'package:edifyin/providers/otp_data.dart';
+import '../providers/otp_data.dart';
 
 import '../models/user_info.dart';
 
-import 'package:edifyin/models/drawer_item.dart';
+import '../models/drawer_item.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;

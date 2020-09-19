@@ -1,4 +1,4 @@
-import 'package:edifyin/providers/display_data.dart';
+import '../providers/display_data.dart';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -32,14 +32,14 @@ class Auth with ChangeNotifier {
     return _refreshToken;
   }
 
-  Future<void> _authenticate(
+  Future<void> authenticate(
       String username,
       String password) async {
     final url = 'https://api.edifyin.teamin.in/token';
 
     try{
       final tokenResponse = await http.post(url, body: {
-        'username': '0007',
+        'username': username,
         'password': 'testing1',
         'grant_type': 'password',
         'scope': 'org:B0C5B70A-5273-4B3A-865E-8E172F699C5A',
@@ -47,6 +47,7 @@ class Auth with ChangeNotifier {
       });
       // print(tokenResponse.body);
       final responseData = json.decode(tokenResponse.body);
+      print(responseData);
       if (responseData['error'] != null ) {
         throw HttpException(responseData['error']['message']);
       }
@@ -67,15 +68,16 @@ class Auth with ChangeNotifier {
       });
       prefs.setString('userData', userData);
       // DisplayData().fetchDrawerData(_accessToken);
-      
+
     } catch (error) {
       throw HttpException(error);
     }
   }
 
   Future<void> login(String username, String password) async {
-    return _authenticate(username, password);
+    return authenticate(username, password);
   }
+
   // Future<bool> tryAutoLogin() async {
   //   final prefs = await SharedPreferences.getInstance();
   //   if (!prefs.containsKey('userData')) {
