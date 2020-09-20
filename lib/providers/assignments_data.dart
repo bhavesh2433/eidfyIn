@@ -7,9 +7,9 @@ import 'package:http/http.dart' as http;
 
 class AssignmentsData with ChangeNotifier {
 
-  List _loadedAssignment = [];
+  List<Record> _loadedAssignment = [];
 
-  int pageSize = 10;
+  String pageSize = '10';
   int page = 0;
   //Fetching ListData
 
@@ -19,13 +19,15 @@ class AssignmentsData with ChangeNotifier {
 
     Future<void> fetchAssignmentData(
         String cn, String _accessToken,String pageNo) async {
+
+    print(cn);
       final url = Uri.https(
           'api.edifyin.teamin.in',
           '/Common/List/General/Data',
           {
-            'PageSize': pageSize.toString(),
+            'PageSize': '10',
             'Con': cn,
-            'Page': pageNo
+            'Page': '1'
 
           });
 
@@ -38,15 +40,16 @@ class AssignmentsData with ChangeNotifier {
 
         print(listDataResponse.statusCode);
 
-        List<AssignmentData> listExtracted = json.decode(
-            listDataResponse.body);
+        // print(json.decode(listDataResponse.body));
 
-        print(json.decode(listDataResponse.body));
-        _loadedAssignment.add(listExtracted[0].records);
-
+        AssignmentData listExtracted = AssignmentData.fromJson(
+            json.decode(listDataResponse.body));
 
 
-        print(_loadedAssignment[0]['AssignmentId']);
+
+        _loadedAssignment = listExtracted.records;
+
+        print(_loadedAssignment);
 
       } catch (error) {
         throw error;

@@ -1,4 +1,7 @@
 
+import './providers/assignments_data.dart';
+import './screens/assignment_detail.dart';
+
 import './screens/otp_screen.dart';
 
 import './screens/home_screen.dart';
@@ -37,6 +40,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (ctx) => OtpData(),
+        ),
+        ChangeNotifierProvider(
+            create: (ctx) => AssignmentsData()
         )
       ],
       child: MaterialApp(
@@ -47,7 +53,8 @@ class MyApp extends StatelessWidget {
           accentColor: Colors.deepPurple,
           accentColorBrightness: Brightness.dark,
         ),
-        home: OrgScreen(),
+        home: Auth().isAuth ?
+          HomeScreen() :OrgScreen(),
         routes: {
           // HomeScreen.routeName: (ctx) => HomeScreen(),
           ListScreen.routeName: (ctx) => ListScreen(),
@@ -55,7 +62,8 @@ class MyApp extends StatelessWidget {
           OtpScreen.routeName: (ctx) => OtpScreen(),
           RegisterScreen.routeName: (ctx) => RegisterScreen(),
           Login.routeName: (ctx) => Login(),
-          HomeScreen.routeName: (ctx) => HomeScreen()
+          HomeScreen.routeName: (ctx) => HomeScreen(),
+          AssignmentDetail.routeName: (ctx) => AssignmentDetail()
         },
       ),
     );

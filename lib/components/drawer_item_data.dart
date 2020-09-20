@@ -158,7 +158,7 @@ class _DrawerItemDataState extends State<DrawerItemData> {
                                         ListScreen.routeName,
                                         arguments: {
                                           'title': manager.first.p.displayText,
-                                          'cn': listItems[index].pcn
+                                          'cn': listItems[index].cn
                                         });
                                   },
                                 );
