@@ -40,6 +40,7 @@ class _OrgScreenState extends State<OrgScreen> {
         setState(() {
           isLoading = false;
         });
+        Navigator.of(context).pushNamed(Login.routeName, arguments: qrCodeUrl);
       });
     } on HttpException catch (error) {
       setState(() {
