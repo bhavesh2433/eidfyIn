@@ -1,6 +1,7 @@
 import 'package:edifyin/models/assignmentData.dart';
 import 'package:edifyin/providers/assignments_data.dart';
 import 'package:edifyin/screens/assignment_detail.dart';
+import 'package:edifyin/screens/splashscreen.dart';
 
 import './screens/otp_screen.dart';
 
@@ -45,7 +46,8 @@ class MyApp extends StatelessWidget {
           create: (ctx) => AssignmentsData(),
         ),
       ],
-      child: MaterialApp(
+      child: Consumer<Auth>(
+          builder: (ctx, auth, _) => MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Chat App',
         theme: ThemeData(
@@ -53,7 +55,15 @@ class MyApp extends StatelessWidget {
           accentColor: Colors.deepPurple,
           accentColorBrightness: Brightness.dark,
         ),
-        home: OrgScreen(),
+        home: Auth().isAuth
+            ? HomeScreen()
+            : FutureBuilder(
+    future: auth.tryAutoLogin(),
+    builder: (ctx, authResultSnapshot) =>
+    authResultSnapshot.connectionState ==
+    ConnectionState.waiting
+    ? SplashScreen() : OrgScreen(),
+    ),
         routes: {
           // HomeScreen.routeName: (ctx) => HomeScreen(),
           ListScreen.routeName: (ctx) => ListScreen(),
@@ -65,6 +75,6 @@ class MyApp extends StatelessWidget {
           AssignmentDetail.routeName: (ctx) => AssignmentDetail()
         },
       ),
-    );
+    ));
   }
 }
