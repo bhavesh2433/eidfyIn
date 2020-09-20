@@ -28,11 +28,7 @@ class _DrawerItemDataState extends State<DrawerItemData> {
   Widget build(BuildContext context) {
     var org = widget.orgData.displayData.where((org) => org.iv == true);
 
-    final defaultData = [
-      'Learning Management',
-      'Communication',
-      'Attendance'
-    ];
+    final defaultData = ['Learning Management', 'Communication', 'Attendance'];
     final data = (widget.selected == 'Learning Management' ||
             widget.selected == 'Communication' ||
             widget.selected == 'Attendance')
@@ -45,15 +41,15 @@ class _DrawerItemDataState extends State<DrawerItemData> {
     final mediaQuery = MediaQuery.of(context).size;
 
     var cnName = (widget.selected == 'Learning Management' ||
-        widget.selected == 'Communication' ||
-        widget.selected == 'Attendance')
+            widget.selected == 'Communication' ||
+            widget.selected == 'Attendance')
         ? org
-        .where((visibleItem) => visibleItem.ct == 'Plugin')
-        .where((desired) => desired.p.displayText == widget.selected)
-        .toList()
-        .first
-        .cn :
-    widget.orgData.displayData.where((org) => org.iv == true);
+            .where((visibleItem) => visibleItem.ct == 'Plugin')
+            .where((desired) => desired.p.displayText == widget.selected)
+            .toList()
+            .first
+            .cn
+        : widget.orgData.displayData.where((org) => org.iv == true);
 
     var manager = org
         .where((visibleItem) => visibleItem.ct == 'Manager')
@@ -158,7 +154,7 @@ class _DrawerItemDataState extends State<DrawerItemData> {
                                         ListScreen.routeName,
                                         arguments: {
                                           'title': manager.first.p.displayText,
-                                          'cn': listItems[index].pcn
+                                          'cn': listItems[index].cn
                                         });
                                   },
                                 );

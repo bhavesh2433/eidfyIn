@@ -18,7 +18,6 @@ class _OtpScreenState extends State<OtpScreen> {
   final _passwordFocusNode = FocusNode();
   final _confirmPasswordFocusNode = FocusNode();
 
-
   var _isLoading = false;
 
   Map<String, dynamic> otpData = {
@@ -36,8 +35,7 @@ class _OtpScreenState extends State<OtpScreen> {
   void _showErrorDialog(String message, BuildContext context) {
     showDialog(
         context: context,
-        builder: (ctx) =>
-            AlertDialog(
+        builder: (ctx) => AlertDialog(
               title: Text('An Error Occured!'),
               content: Text(message),
               actions: <Widget>[
@@ -51,28 +49,22 @@ class _OtpScreenState extends State<OtpScreen> {
   }
 
   Future<void> _submit(Map<String, dynamic> requiredData) async {
-    if(!_formKey.currentState.validate()){
+    if (!_formKey.currentState.validate()) {
       return;
     }
     _formKey.currentState.save();
-    try{
-      Provider.of<OtpData>(context, listen: false).putOtp(
-          requiredData);
-    }catch(error) {
+    try {
+      Provider.of<OtpData>(context, listen: false).putOtp(requiredData);
+    } catch (error) {
       throw error;
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final mediaQuery = MediaQuery
-        .of(context)
-        .size;
+    final mediaQuery = MediaQuery.of(context).size;
     final requiredData =
-    ModalRoute
-        .of(context)
-        .settings
-        .arguments as Map<String, dynamic>;
+        ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
 
     print(requiredData);
 
@@ -93,7 +85,7 @@ class _OtpScreenState extends State<OtpScreen> {
                 height: mediaQuery.height * 0.2,
                 decoration: BoxDecoration(
                   borderRadius:
-                  BorderRadius.all(Radius.elliptical(9999.0, 9999.0)),
+                      BorderRadius.all(Radius.elliptical(9999.0, 9999.0)),
                   color: const Color(0xffffffff),
                   boxShadow: [
                     BoxShadow(
@@ -108,17 +100,16 @@ class _OtpScreenState extends State<OtpScreen> {
                 height: mediaQuery.height * 0.1,
               ),
               Container(
-                  child: Text(
-                    'OTP code',
-                    style: TextStyle(
-                      fontFamily: 'Segoe UI',
-                      fontSize: 15,
-                      color: const Color(0xff8d8d8d),
-                    ),
-                    textAlign: TextAlign.left,
+                child: Text(
+                  'OTP code',
+                  style: TextStyle(
+                    fontFamily: 'Segoe UI',
+                    fontSize: 15,
+                    color: const Color(0xff8d8d8d),
                   ),
+                  textAlign: TextAlign.left,
+                ),
               ),
-
               Center(
                 child: Container(
                   padding: EdgeInsets.all(5),
@@ -126,7 +117,6 @@ class _OtpScreenState extends State<OtpScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
-
                         Container(
                             width: mediaQuery.width * 0.7,
                             padding: EdgeInsets.only(left: 5, right: 5),
@@ -143,9 +133,7 @@ class _OtpScreenState extends State<OtpScreen> {
                             ),
                             child: Container(
                               padding: EdgeInsets.symmetric(
-                                  horizontal: 3,
-                                  vertical: 2
-                              ),
+                                  horizontal: 3, vertical: 2),
                               width: mediaQuery.width * 0.6,
                               child: OTPTextField(
                                 keyboardType: TextInputType.number,
@@ -154,16 +142,18 @@ class _OtpScreenState extends State<OtpScreen> {
                                   Focus.of(context).requestFocus(
                                     _passwordFocusNode,
                                   );
+                                  setState(() {
+                                    otpData['otp'] = value;
+                                  });
                                 },
-
                               ),
                             )),
                         SizedBox(
                           height: mediaQuery.height * 0.02,
                         ),
                         Container(
-                          padding: EdgeInsets.only(
-                              left: mediaQuery.width * 0.09),
+                          padding:
+                              EdgeInsets.only(left: mediaQuery.width * 0.09),
                           alignment: Alignment.centerLeft,
                           child: FlatButton(
                             child: Text(
@@ -179,10 +169,7 @@ class _OtpScreenState extends State<OtpScreen> {
                           ),
                         ),
                         SizedBox(
-                          height: MediaQuery
-                              .of(context)
-                              .size
-                              .height * 0.03,
+                          height: MediaQuery.of(context).size.height * 0.03,
                         ),
                         Container(
                           width: mediaQuery.width * 0.8,
@@ -219,14 +206,15 @@ class _OtpScreenState extends State<OtpScreen> {
                             validator: (value) {
                               if (value.isEmpty) {
                                 _showErrorDialog(
-                                    'Please enter a valid password',
-                                context);
+                                    'Please enter a valid password', context);
                               }
                               return null;
                             },
                             onSaved: (value) {
                               print(value);
-                              otpData['password'] = value;
+                              setState(() {
+                                otpData['password'] = value;
+                              });
                             },
                             textAlignVertical: TextAlignVertical.center,
                           ),
@@ -236,8 +224,7 @@ class _OtpScreenState extends State<OtpScreen> {
                         ),
                         Container(
                           width: mediaQuery.width * 0.8,
-                          padding: EdgeInsets.only(
-                              left: 5, right: 10),
+                          padding: EdgeInsets.only(left: 5, right: 10),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(6.0),
                             color: const Color(0xffffffff),
@@ -259,18 +246,18 @@ class _OtpScreenState extends State<OtpScreen> {
                                 ),
                                 border: InputBorder.none),
                             controller: _confirmPasswordController,
-                            onFieldSubmitted: (_) {
-                              },
+                            onFieldSubmitted: (_) {},
                             textInputAction: TextInputAction.next,
                             validator: (value) {
-                              if (value.isEmpty) {
-                              }
+                              if (value.isEmpty) {}
                               return null;
                             },
                             obscureText: true,
                             onSaved: (value) {
                               // print(value);
-                              otpData['confirmPassword'] = value;
+                              setState(() {
+                                otpData['confirmPassword'] = value;
+                              });
                             },
                             textAlign: TextAlign.start,
                             textAlignVertical: TextAlignVertical.center,
@@ -292,16 +279,9 @@ class _OtpScreenState extends State<OtpScreen> {
                                 ),
                               ],
                             ),
-                            width: MediaQuery
-                                .of(context)
-                                .size
-                                .width * 0.7,
-                            height: MediaQuery
-                                .of(context)
-                                .size
-                                .height * 0.07,
-                            child:
-                            Center(
+                            width: MediaQuery.of(context).size.width * 0.7,
+                            height: MediaQuery.of(context).size.height * 0.07,
+                            child: Center(
                               child: Text(
                                 'Register',
                                 style: TextStyle(

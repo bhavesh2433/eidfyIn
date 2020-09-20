@@ -1,3 +1,5 @@
+import 'package:edifyin/models/assignmentData.dart';
+import 'package:edifyin/providers/assignments_data.dart';
 
 import './screens/otp_screen.dart';
 
@@ -37,7 +39,10 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (ctx) => OtpData(),
-        )
+        ),
+        ChangeNotifierProvider(
+          create: (ctx) => AssignmentsData(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

@@ -19,7 +19,7 @@ class _HomePageState extends State<HomePage> {
     final mediaQuery = MediaQuery.of(context).size;
     final accessToken = Provider.of<Auth>(context).token;
 
-    Provider.of<DisplayData>(context).fetchSchemaData(accessToken);
+    Provider.of<DrawerDisplayData>(context).fetchSchemaData(accessToken);
     return Container(
       padding: EdgeInsets.only(top: mediaQuery.height * 0.25),
       child: Center(

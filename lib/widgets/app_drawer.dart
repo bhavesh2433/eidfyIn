@@ -21,12 +21,9 @@ class AppDrawer extends StatefulWidget {
 }
 
 class _AppDrawerState extends State<AppDrawer> {
-
-    @override
-    Widget build(BuildContext context) {
-
-
-      return SizedBox(
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
       width: widget.mediaQuery.width * 0.8,
       child: Drawer(
         child: Scaffold(
@@ -72,10 +69,9 @@ class _AppDrawerState extends State<AppDrawer> {
                                   ),
                                   IconButton(
                                       icon: Icon(Icons.menu),
-                                      color: widget.selectedItem == 'menu' ?
-                                      const Color(0xff4fc7f3):
-                                      const Color(0xffb3b1b1)
-                                      ,
+                                      color: widget.selectedItem == 'menu'
+                                          ? const Color(0xff4fc7f3)
+                                          : const Color(0xffb3b1b1),
                                       onPressed: () {
                                         widget.selectedItem = 'menu';
                                       }),
@@ -105,14 +101,14 @@ class _AppDrawerState extends State<AppDrawer> {
                                   // ),
                                   IconButton(
                                       icon: Icon(Icons.home),
-                                      color: widget.selectedItem == 'home' ?
-                                      const Color(0xff4fc7f3):
-                                      const Color(0xffb3b1b1) ,
+                                      color: widget.selectedItem == 'home'
+                                          ? const Color(0xff4fc7f3)
+                                          : const Color(0xffb3b1b1),
                                       onPressed: () {
                                         setState(() {
-                                          Navigator.of(context).pushReplacementNamed(
-                                            HomeScreen.routeName
-                                          );
+                                          Navigator.of(context)
+                                              .pushReplacementNamed(
+                                                  HomeScreen.routeName);
                                           widget.selectedItem = 'home';
                                         });
                                       }),
@@ -140,12 +136,14 @@ class _AppDrawerState extends State<AppDrawer> {
                                   // ),
                                   IconButton(
                                       icon: Icon(Icons.book),
-                                      color: widget.selectedItem == 'Learning Management' ?
-                                      const Color(0xff4fc7f3):
-                                      const Color(0xffb3b1b1) ,
-                                      onPressed: (){
+                                      color: widget.selectedItem ==
+                                              'Learning Management'
+                                          ? const Color(0xff4fc7f3)
+                                          : const Color(0xffb3b1b1),
+                                      onPressed: () {
                                         setState(() {
-                                          widget.selectedItem = 'Learning Management';
+                                          widget.selectedItem =
+                                              'Learning Management';
                                         });
                                       }),
                                   SizedBox(
@@ -154,9 +152,10 @@ class _AppDrawerState extends State<AppDrawer> {
                                   IconButton(
                                     icon: Icon(
                                       Icons.speaker_phone,
-                                      color: widget.selectedItem == 'Communication' ?
-                                      const Color(0xff4fc7f3):
-                                      const Color(0xffb3b1b1) ,
+                                      color:
+                                          widget.selectedItem == 'Communication'
+                                              ? const Color(0xff4fc7f3)
+                                              : const Color(0xffb3b1b1),
                                     ),
                                     onPressed: () {
                                       setState(() {
@@ -170,9 +169,9 @@ class _AppDrawerState extends State<AppDrawer> {
                                   IconButton(
                                     icon: Icon(
                                       Icons.mail_outline,
-                                      color: widget.selectedItem == 'Attendance' ?
-                                      const Color(0xff4fc7f3):
-                                      const Color(0xffb3b1b1) ,
+                                      color: widget.selectedItem == 'Attendance'
+                                          ? const Color(0xff4fc7f3)
+                                          : const Color(0xffb3b1b1),
                                     ),
                                     onPressed: () {
                                       setState(() {
@@ -187,7 +186,7 @@ class _AppDrawerState extends State<AppDrawer> {
                         ),
                       ),
                       Container(
-                        height: widget.mediaQuery.height ,
+                        height: widget.mediaQuery.height,
                         child: Column(children: <Widget>[
                           Container(
                             margin: EdgeInsets.only(left: 15, top: 20),
@@ -230,7 +229,8 @@ class _AppDrawerState extends State<AppDrawer> {
                                             textAlign: TextAlign.left,
                                           ),
                                           SizedBox(
-                                            height: widget.mediaQuery.height * 0.01,
+                                            height:
+                                                widget.mediaQuery.height * 0.01,
                                           ),
                                           Text(
                                             'University',
@@ -263,7 +263,7 @@ class _AppDrawerState extends State<AppDrawer> {
                             ),
                           ),
                           Container(
-                            height: MediaQuery.of(context).size.height * 0.5 ,
+                            height: MediaQuery.of(context).size.height * 0.5,
                             child: Consumer<DrawerDisplayData>(
                                 builder: (ctx, orgData, child) {
                               return SingleChildScrollView(
@@ -275,24 +275,23 @@ class _AppDrawerState extends State<AppDrawer> {
                                       SingleChildScrollView(
                                         child: ListView.builder(
                                             shrinkWrap: true,
-                                            itemCount:
-                                            (widget.selectedItem == 'Learning Management'
-                                                || widget.selectedItem == 'Communication'
-                                                || widget.selectedItem == 'Attendance')
+                                            itemCount: (widget.selectedItem ==
+                                                        'Learning Management' ||
+                                                    widget.selectedItem ==
+                                                        'Communication' ||
+                                                    widget.selectedItem ==
+                                                        'Attendance')
                                                 ? 1
                                                 : orgData.displayData
-                                                .where((org) => org.iv == true)
-                                                .where((visibleItem) =>
-                                                    visibleItem.ct == 'Plugin')
-                                                .length
-                                            ,
+                                                    .where(
+                                                        (org) => org.iv == true)
+                                                    .where((visibleItem) =>
+                                                        visibleItem.ct ==
+                                                        'Plugin')
+                                                    .length,
                                             itemBuilder: (ctx, i) =>
-                                                DrawerItemData(
-                                                  orgData,
-                                                   i,
-                                                   widget.selectedItem
-                                                )
-                                        ),
+                                                DrawerItemData(orgData, i,
+                                                    widget.selectedItem)),
                                       ),
                                     ],
                                   ),
@@ -302,9 +301,7 @@ class _AppDrawerState extends State<AppDrawer> {
                           ),
                         ]),
                       ),
-                    ]
-                        )
-                    );
+                    ]));
                   }
                 }
               }),
