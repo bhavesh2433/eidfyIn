@@ -188,8 +188,10 @@ class _AppDrawerState extends State<AppDrawer> {
                       ),
                       Container(
                         height: widget.mediaQuery.height,
+                        width: widget.mediaQuery.width * 0.6,
                         child: Column(children: <Widget>[
                           Container(
+                            height: widget.mediaQuery.height * 0.17,
                             margin: EdgeInsets.only(left: 15, top: 20),
                             padding: EdgeInsets.all(5),
                             child: Column(
@@ -264,7 +266,8 @@ class _AppDrawerState extends State<AppDrawer> {
                             ),
                           ),
                           Container(
-                            height: MediaQuery.of(context).size.height * 0.5,
+                            height: MediaQuery.of(context).size.height * 0.8,
+                            width: MediaQuery.of(context).size.width * 0.6,
                             child: Consumer<DrawerDisplayData>(
                                 builder: (ctx, orgData, child) {
                               return SingleChildScrollView(

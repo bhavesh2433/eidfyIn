@@ -61,6 +61,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     color: Colors.grey[800],
                     fontWeight: FontWeight.w500),
               ),
+
               SizedBox(
                 height: 10,
               ),
@@ -74,6 +75,7 @@ class _ProfilePageState extends State<ProfilePage> {
             ],
           ),
         ),
+        Divider(color: Colors.black54,),
         SizedBox(
           height: mediaQuery.width * 0.1,
         ),
@@ -102,7 +104,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
               SizedBox(
-                height: 15,
+                height: mediaQuery.width * 0.05,
               ),
               Text(
                 "Admission Number",
@@ -124,7 +126,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
               SizedBox(
-                height: 15,
+                height: mediaQuery.width * 0.05,
               ),
               Text(
                 "Class",
@@ -146,7 +148,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
               SizedBox(
-                height: 15,
+                height: mediaQuery.width * 0.05,
               ),
               Text(
                 "Section",
