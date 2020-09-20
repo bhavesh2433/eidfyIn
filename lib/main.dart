@@ -14,7 +14,6 @@ import './screens/list_screen.dart';
 import './providers/auth.dart';
 import './providers/org_data.dart';
 
-
 import 'package:flutter/material.dart';
 
 void main() async {
@@ -50,7 +49,7 @@ class MyApp extends StatelessWidget {
         home: OrgScreen(),
         routes: {
           // HomeScreen.routeName: (ctx) => HomeScreen(),
-          ListScreen.routeName : (ctx) => ListScreen(),
+          ListScreen.routeName: (ctx) => ListScreen(),
           OrgScreen.routeName: (ctx) => OrgScreen(),
           OtpScreen.routeName: (ctx) => OtpScreen(),
           RegisterScreen.routeName: (ctx) => RegisterScreen(),
@@ -61,4 +60,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
