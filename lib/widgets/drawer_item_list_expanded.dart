@@ -4,7 +4,7 @@ import '../providers/display_data.dart';
 import 'package:flutter/material.dart';
 
 class DrawerItemListExpanded extends StatefulWidget {
-  final DisplayData orgData;
+  final DrawerDisplayData orgData;
   final String cnName;
 
   DrawerItemListExpanded(this.orgData, this.cnName);

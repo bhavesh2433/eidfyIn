@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class LoginButton extends StatelessWidget {
+
   final Function submit;
 
   LoginButton(this.submit);

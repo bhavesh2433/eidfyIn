@@ -1,3 +1,4 @@
+
 import './screens/otp_screen.dart';
 
 import './screens/home_screen.dart';
@@ -32,7 +33,7 @@ class MyApp extends StatelessWidget {
           create: (ctx) => Auth(),
         ),
         ChangeNotifierProvider(
-          create: (ctx) => DisplayData(),
+          create: (ctx) => DrawerDisplayData(),
         ),
         ChangeNotifierProvider(
           create: (ctx) => OtpData(),

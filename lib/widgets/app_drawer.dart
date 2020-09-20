@@ -1,11 +1,12 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import '../screens/home_screen.dart';
 import '../providers/display_data.dart';
 import '../components/drawer_item_data.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
-class AppDrawer extends StatelessWidget {
+class AppDrawer extends StatefulWidget {
   AppDrawer({
     @required this.mediaQuery,
     @required this.accessToken,
@@ -13,18 +14,25 @@ class AppDrawer extends StatelessWidget {
 
   final Size mediaQuery;
   final String accessToken;
+  var selectedItem = 'Learning Management';
 
+  @override
+  _AppDrawerState createState() => _AppDrawerState();
+}
+
+class _AppDrawerState extends State<AppDrawer> {
 
     @override
     Widget build(BuildContext context) {
-      var buttonIndexSelected = null;
+
+
       return SizedBox(
-      width: mediaQuery.width * 0.8,
+      width: widget.mediaQuery.width * 0.8,
       child: Drawer(
         child: Scaffold(
           body: FutureBuilder(
-              future: Provider.of<DisplayData>(context)
-                  .fetchDrawerData(accessToken),
+              future: Provider.of<DrawerDisplayData>(context)
+                  .fetchDrawerData(widget.accessToken),
               builder: (ctx, dataSnapshot) {
                 if (dataSnapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: CircularProgressIndicator());
@@ -38,8 +46,8 @@ class AppDrawer extends StatelessWidget {
                     return Container(
                         child: Row(children: <Widget>[
                       Container(
-                        width: mediaQuery.width * 0.13,
-                        height: mediaQuery.height,
+                        width: widget.mediaQuery.width * 0.13,
+                        height: widget.mediaQuery.height,
                         decoration: BoxDecoration(
                           color: const Color(0xffffffff),
                           boxShadow: [
@@ -51,7 +59,7 @@ class AppDrawer extends StatelessWidget {
                           ],
                         ),
                         child: Container(
-                          height: mediaQuery.height * 0.5,
+                          height: widget.mediaQuery.height * 0.5,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
@@ -60,16 +68,19 @@ class AppDrawer extends StatelessWidget {
                                     MainAxisAlignment.spaceEvenly,
                                 children: <Widget>[
                                   SizedBox(
-                                    height: mediaQuery.height * 0.03,
+                                    height: widget.mediaQuery.height * 0.03,
                                   ),
                                   IconButton(
                                       icon: Icon(Icons.menu),
-                                      color: const Color(0xffb3b1b1),
+                                      color: widget.selectedItem == 'menu' ?
+                                      const Color(0xff4fc7f3):
+                                      const Color(0xffb3b1b1)
+                                      ,
                                       onPressed: () {
-                                        buttonIndexSelected = 0;
+                                        widget.selectedItem = 'menu';
                                       }),
                                   SizedBox(
-                                    height: mediaQuery.height * 0.1,
+                                    height: widget.mediaQuery.height * 0.1,
                                   ),
                                   // InkWell(
                                   //   child: Container(
@@ -94,12 +105,19 @@ class AppDrawer extends StatelessWidget {
                                   // ),
                                   IconButton(
                                       icon: Icon(Icons.home),
-                                      color: const Color(0xffb3b1b1),
+                                      color: widget.selectedItem == 'home' ?
+                                      const Color(0xff4fc7f3):
+                                      const Color(0xffb3b1b1) ,
                                       onPressed: () {
-                                        buttonIndexSelected = 1;
+                                        setState(() {
+                                          Navigator.of(context).pushReplacementNamed(
+                                            HomeScreen.routeName
+                                          );
+                                          widget.selectedItem = 'home';
+                                        });
                                       }),
                                   SizedBox(
-                                    height: mediaQuery.height * 0.1,
+                                    height: widget.mediaQuery.height * 0.1,
                                   ),
                                   // InkWell(
                                   //   child: Container(
@@ -122,32 +140,44 @@ class AppDrawer extends StatelessWidget {
                                   // ),
                                   IconButton(
                                       icon: Icon(Icons.book),
-                                      color: const Color(0xffb3b1b1),
+                                      color: widget.selectedItem == 'Learning Management' ?
+                                      const Color(0xff4fc7f3):
+                                      const Color(0xffb3b1b1) ,
                                       onPressed: (){
-                                        buttonIndexSelected = 2;
+                                        setState(() {
+                                          widget.selectedItem = 'Learning Management';
+                                        });
                                       }),
                                   SizedBox(
-                                    height: mediaQuery.height * 0.1,
+                                    height: widget.mediaQuery.height * 0.1,
                                   ),
                                   IconButton(
                                     icon: Icon(
                                       Icons.speaker_phone,
-                                      color: const Color(0xffb3b1b1),
+                                      color: widget.selectedItem == 'Communication' ?
+                                      const Color(0xff4fc7f3):
+                                      const Color(0xffb3b1b1) ,
                                     ),
                                     onPressed: () {
-                                      buttonIndexSelected = 3;
+                                      setState(() {
+                                        widget.selectedItem = 'Communication';
+                                      });
                                     },
                                   ),
                                   SizedBox(
-                                    height: mediaQuery.height * 0.1,
+                                    height: widget.mediaQuery.height * 0.1,
                                   ),
                                   IconButton(
                                     icon: Icon(
                                       Icons.mail_outline,
-                                      color: const Color(0xffb3b1b1),
+                                      color: widget.selectedItem == 'Attendance' ?
+                                      const Color(0xff4fc7f3):
+                                      const Color(0xffb3b1b1) ,
                                     ),
                                     onPressed: () {
-                                      buttonIndexSelected = 4;
+                                      setState(() {
+                                        widget.selectedItem = 'Attendance';
+                                      });
                                     },
                                   ),
                                 ],
@@ -156,106 +186,122 @@ class AppDrawer extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Column(children: <Widget>[
-                        Container(
-                          margin: EdgeInsets.only(left: 15, top: 20),
-                          padding: EdgeInsets.all(5),
-                          child: Column(
-                            children: <Widget>[
-                              Row(
-                                children: <Widget>[
-                                  Container(
-                                    width: 75.0,
-                                    height: 75.0,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.elliptical(9999.0, 9999.0)),
-                                      color: const Color(0xffffffff),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: const Color(0x29000000),
-                                          offset: Offset(0, 3),
-                                          blurRadius: 6,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Container(
-                                    padding: EdgeInsets.all(10),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        Text(
-                                          'Name',
-                                          style: TextStyle(
-                                            fontFamily: 'Calibri',
-                                            fontSize: 18,
-                                            color: const Color(0xff707070),
-                                          ),
-                                          textAlign: TextAlign.left,
-                                        ),
-                                        SizedBox(
-                                          height: mediaQuery.height * 0.01,
-                                        ),
-                                        Text(
-                                          'University',
-                                          style: TextStyle(
-                                            fontFamily: 'Calibri',
-                                            fontSize: 18,
-                                            color: const Color(0xff707070),
-                                          ),
-                                          textAlign: TextAlign.left,
-                                        )
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 10),
-                                child: Center(
-                                    child: Text(
-                                  ' Student ID 61622',
-                                  style: TextStyle(
-                                    fontFamily: 'Calibri',
-                                    fontSize: 20,
-                                    color: const Color(0xff707070),
-                                  ),
-                                  textAlign: TextAlign.left,
-                                )),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Consumer<DisplayData>(builder: (ctx, orgData, child) {
-                          return Container(
-                            width: mediaQuery.width * 0.6,
+                      Container(
+                        height: widget.mediaQuery.height ,
+                        child: Column(children: <Widget>[
+                          Container(
+                            margin: EdgeInsets.only(left: 15, top: 20),
+                            padding: EdgeInsets.all(5),
                             child: Column(
                               children: <Widget>[
-                                SingleChildScrollView(
-                                  child: ListView.builder(
-                                      shrinkWrap: true,
-                                      itemCount: buttonIndexSelected == 2
-                                          || buttonIndexSelected == 3
-                                          || buttonIndexSelected == 4
-                                          ? 1
-                                          : orgData.displayData
-                                          .where((org) => org.iv == true)
-                                          .where((visibleItem) =>
-                                              visibleItem.ct == 'Plugin')
-                                          .length
-                                      ,
-                                      itemBuilder: (ctx, i) =>
-                                          DrawerItemData(orgData, i)),
+                                Row(
+                                  children: <Widget>[
+                                    Container(
+                                      width: 75.0,
+                                      height: 75.0,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.elliptical(9999.0, 9999.0)),
+                                        color: const Color(0xffffffff),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: const Color(0x29000000),
+                                            offset: Offset(0, 3),
+                                            blurRadius: 6,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Container(
+                                      padding: EdgeInsets.all(10),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Text(
+                                            'Name',
+                                            style: TextStyle(
+                                              fontFamily: 'Calibri',
+                                              fontSize: 18,
+                                              color: const Color(0xff707070),
+                                            ),
+                                            textAlign: TextAlign.left,
+                                          ),
+                                          SizedBox(
+                                            height: widget.mediaQuery.height * 0.01,
+                                          ),
+                                          Text(
+                                            'University',
+                                            style: TextStyle(
+                                              fontFamily: 'Calibri',
+                                              fontSize: 18,
+                                              color: const Color(0xff707070),
+                                            ),
+                                            textAlign: TextAlign.left,
+                                          )
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 10),
+                                  child: Center(
+                                      child: Text(
+                                    ' Student ID 61622',
+                                    style: TextStyle(
+                                      fontFamily: 'Calibri',
+                                      fontSize: 20,
+                                      color: const Color(0xff707070),
+                                    ),
+                                    textAlign: TextAlign.left,
+                                  )),
                                 ),
                               ],
                             ),
-                          );
-                        }),
-                      ]),
+                          ),
+                          Container(
+                            height: MediaQuery.of(context).size.height * 0.5 ,
+                            child: Consumer<DrawerDisplayData>(
+                                builder: (ctx, orgData, child) {
+                              return SingleChildScrollView(
+                                child: Container(
+                                  // height: widget.mediaQuery.height * 0.00002,
+                                  width: widget.mediaQuery.width * 0.6,
+                                  child: Column(
+                                    children: <Widget>[
+                                      SingleChildScrollView(
+                                        child: ListView.builder(
+                                            shrinkWrap: true,
+                                            itemCount:
+                                            (widget.selectedItem == 'Learning Management'
+                                                || widget.selectedItem == 'Communication'
+                                                || widget.selectedItem == 'Attendance')
+                                                ? 1
+                                                : orgData.displayData
+                                                .where((org) => org.iv == true)
+                                                .where((visibleItem) =>
+                                                    visibleItem.ct == 'Plugin')
+                                                .length
+                                            ,
+                                            itemBuilder: (ctx, i) =>
+                                                DrawerItemData(
+                                                  orgData,
+                                                   i,
+                                                   widget.selectedItem
+                                                )
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            }),
+                          ),
+                        ]),
+                      ),
                     ]
                         )
                     );
