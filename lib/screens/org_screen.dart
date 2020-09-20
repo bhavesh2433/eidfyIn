@@ -51,7 +51,7 @@ class _OrgScreenState extends State<OrgScreen> {
       setState(() {
         isLoading = false;
       });
-      _showErrorDialog("qr code is invalid");
+      throw HttpException(error.toString());
     }
   }
 
