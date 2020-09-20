@@ -74,7 +74,8 @@ class _AppDrawerState extends State<AppDrawer> {
                                           : const Color(0xffb3b1b1),
                                       onPressed: () {
                                         Navigator.of(context).pop();
-                                        widget.selectedItem = 'Learning Management';
+                                        widget.selectedItem =
+                                            'Learning Management';
                                       }),
                                   SizedBox(
                                     height: widget.mediaQuery.height * 0.1,
@@ -186,122 +187,119 @@ class _AppDrawerState extends State<AppDrawer> {
                           ),
                         ),
                       ),
-                      Container(
-                        height: widget.mediaQuery.height,
-                        child: Column(children: <Widget>[
-                          Container(
-                            margin: EdgeInsets.only(left: 15, top: 20),
-                            padding: EdgeInsets.all(5),
-                            child: Column(
-                              children: <Widget>[
-                                Row(
-                                  children: <Widget>[
-                                    Container(
-                                      width: 75.0,
-                                      height: 75.0,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.elliptical(9999.0, 9999.0)),
-                                        color: const Color(0xffffffff),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: const Color(0x29000000),
-                                            offset: Offset(0, 3),
-                                            blurRadius: 6,
-                                          ),
-                                        ],
-                                      ),
+                      Column(children: <Widget>[
+                        Container(
+                          margin: EdgeInsets.only(left: 15, top: 20),
+                          padding: EdgeInsets.all(5),
+                          child: Column(
+                            children: <Widget>[
+                              Row(
+                                children: <Widget>[
+                                  Container(
+                                    width: 75.0,
+                                    height: 75.0,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.elliptical(9999.0, 9999.0)),
+                                      color: const Color(0xffffffff),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: const Color(0x29000000),
+                                          offset: Offset(0, 3),
+                                          blurRadius: 6,
+                                        ),
+                                      ],
                                     ),
-                                    Container(
-                                      padding: EdgeInsets.all(10),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          Text(
-                                            'Name',
-                                            style: TextStyle(
-                                              fontFamily: 'Calibri',
-                                              fontSize: 18,
-                                              color: const Color(0xff707070),
-                                            ),
-                                            textAlign: TextAlign.left,
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.all(10),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Text(
+                                          'Name',
+                                          style: TextStyle(
+                                            fontFamily: 'Calibri',
+                                            fontSize: 18,
+                                            color: const Color(0xff707070),
                                           ),
-                                          SizedBox(
-                                            height:
-                                                widget.mediaQuery.height * 0.01,
+                                          textAlign: TextAlign.left,
+                                        ),
+                                        SizedBox(
+                                          height:
+                                              widget.mediaQuery.height * 0.01,
+                                        ),
+                                        Text(
+                                          'University',
+                                          style: TextStyle(
+                                            fontFamily: 'Calibri',
+                                            fontSize: 18,
+                                            color: const Color(0xff707070),
                                           ),
-                                          Text(
-                                            'University',
-                                            style: TextStyle(
-                                              fontFamily: 'Calibri',
-                                              fontSize: 18,
-                                              color: const Color(0xff707070),
-                                            ),
-                                            textAlign: TextAlign.left,
-                                          )
-                                        ],
-                                      ),
-                                    )
+                                          textAlign: TextAlign.left,
+                                        )
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 10),
+                                child: Center(
+                                    child: Text(
+                                  ' Student ID 61622',
+                                  style: TextStyle(
+                                    fontFamily: 'Calibri',
+                                    fontSize: 20,
+                                    color: const Color(0xff707070),
+                                  ),
+                                  textAlign: TextAlign.left,
+                                )),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          height: MediaQuery.of(context).size.height * 0.5,
+                          child: Consumer<DrawerDisplayData>(
+                              builder: (ctx, orgData, child) {
+                            return SingleChildScrollView(
+                              child: Container(
+                                // height: widget.mediaQuery.height * 0.00002,
+                                width: widget.mediaQuery.width * 0.6,
+                                child: Column(
+                                  children: <Widget>[
+                                    SingleChildScrollView(
+                                      child: ListView.builder(
+                                          shrinkWrap: true,
+                                          itemCount: (widget.selectedItem ==
+                                                      'Learning Management' ||
+                                                  widget.selectedItem ==
+                                                      'Communication' ||
+                                                  widget.selectedItem ==
+                                                      'Attendance')
+                                              ? 1
+                                              : orgData.displayData
+                                                  .where(
+                                                      (org) => org.iv == true)
+                                                  .where((visibleItem) =>
+                                                      visibleItem.ct ==
+                                                      'Plugin')
+                                                  .length,
+                                          itemBuilder: (ctx, i) =>
+                                              DrawerItemData(orgData, i,
+                                                  widget.selectedItem)),
+                                    ),
                                   ],
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 10),
-                                  child: Center(
-                                      child: Text(
-                                    ' Student ID 61622',
-                                    style: TextStyle(
-                                      fontFamily: 'Calibri',
-                                      fontSize: 20,
-                                      color: const Color(0xff707070),
-                                    ),
-                                    textAlign: TextAlign.left,
-                                  )),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            height: MediaQuery.of(context).size.height * 0.5,
-                            child: Consumer<DrawerDisplayData>(
-                                builder: (ctx, orgData, child) {
-                              return SingleChildScrollView(
-                                child: Container(
-                                  // height: widget.mediaQuery.height * 0.00002,
-                                  width: widget.mediaQuery.width * 0.6,
-                                  child: Column(
-                                    children: <Widget>[
-                                      SingleChildScrollView(
-                                        child: ListView.builder(
-                                            shrinkWrap: true,
-                                            itemCount: (widget.selectedItem ==
-                                                        'Learning Management' ||
-                                                    widget.selectedItem ==
-                                                        'Communication' ||
-                                                    widget.selectedItem ==
-                                                        'Attendance')
-                                                ? 1
-                                                : orgData.displayData
-                                                    .where(
-                                                        (org) => org.iv == true)
-                                                    .where((visibleItem) =>
-                                                        visibleItem.ct ==
-                                                        'Plugin')
-                                                    .length,
-                                            itemBuilder: (ctx, i) =>
-                                                DrawerItemData(orgData, i,
-                                                    widget.selectedItem)),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              );
-                            }),
-                          ),
-                        ]),
-                      ),
+                              ),
+                            );
+                          }),
+                        ),
+                      ]),
                     ]));
                   }
                 }
