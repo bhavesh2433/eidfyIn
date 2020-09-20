@@ -266,7 +266,7 @@ class _AssignmentDetailState extends State<AssignmentDetail> {
                                     ]),
                                 child: Icon(
                                   Icons.insert_drive_file,
-                                  color: Colors.lightBlue,
+                                  color: Colors.lightBlueAccent,
                                   size: 30,
                                 ),
                               ),
@@ -288,7 +288,7 @@ class _AssignmentDetailState extends State<AssignmentDetail> {
                                     ]),
                                 child: Icon(
                                   Icons.add_circle,
-                                  color: Colors.lightBlue,
+                                  color: Colors.lightBlueAccent,
                                   size: 30,
                                 ),
                               ),
@@ -317,7 +317,7 @@ class _AssignmentDetailState extends State<AssignmentDetail> {
                                     ]),
                                 child: Icon(
                                   Icons.camera_alt,
-                                  color: Colors.lightBlue,
+                                  color: Colors.lightBlueAccent,
                                   size: 30,
                                 ),
                               ),
@@ -339,7 +339,7 @@ class _AssignmentDetailState extends State<AssignmentDetail> {
                                     ]),
                                 child: Icon(
                                   Icons.add_circle,
-                                  color: Colors.lightBlue,
+                                  color: Colors.lightBlueAccent,
                                   size: 30,
                                 ),
                               ),
