@@ -73,7 +73,8 @@ class _AppDrawerState extends State<AppDrawer> {
                                           ? const Color(0xff4fc7f3)
                                           : const Color(0xffb3b1b1),
                                       onPressed: () {
-                                        widget.selectedItem = 'menu';
+                                        Navigator.of(context).pop();
+                                        widget.selectedItem = 'Learning Management';
                                       }),
                                   SizedBox(
                                     height: widget.mediaQuery.height * 0.1,
