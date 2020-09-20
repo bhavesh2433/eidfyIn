@@ -3,30 +3,25 @@ import 'package:intl/intl.dart';
 
 import '../models/organisation_item.dart';
 
-
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
 import './auth.dart';
 
-
-
-class OrgData with ChangeNotifier{
+class OrgData with ChangeNotifier {
   List<OrganisationItem> _organisation = [];
-
 
   List<OrganisationItem> get organisation {
     return [..._organisation];
   }
 
   Future<void> fetchGUID(String orgCode) async {
-
-
     // Fetching guid
     final url =
         'https://api.edifyin.teamin.in/Developer/Organisation/Clients/Client/ByCode/$orgCode';
     final response = await http.get(url);
     List<OrganisationItem> loadedOrganisation = [];
+    print("->>>>>>>" + response.statusCode.toString());
     final extractedData = json.decode(response.body);
     if (extractedData == null) {
       print('no Data');
@@ -34,8 +29,7 @@ class OrgData with ChangeNotifier{
     } else {
       loadedOrganisation.add(OrganisationItem(
           organisationCode: extractedData['OrganisationCode'],
-          guid: extractedData['GUID'])
-      );
+          guid: extractedData['GUID']));
 
       _organisation = loadedOrganisation.toList();
       print(_organisation);
@@ -43,7 +37,6 @@ class OrgData with ChangeNotifier{
       // print("guid: ${extractedData['GUID']}");
       // Auth().authenticate();
     }
-
 
     // //Fetching user info
     //
@@ -69,7 +62,6 @@ class OrgData with ChangeNotifier{
 
     //To be omitted
 
-
     //
     // try {
     //   final tokenResponse4 = await http.get(urlToken4, headers: {
@@ -88,10 +80,6 @@ class OrgData with ChangeNotifier{
     //   throw error;
     // }
   }
-
-
-
-
 
 // Future<void> fetchRefreshToken() async {
 //   final url = 'https://api.edifyin.teamin.in/Developer/Organisation/Clients/Client/ByCode/token';
