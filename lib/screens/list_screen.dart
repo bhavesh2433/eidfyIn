@@ -84,7 +84,7 @@ class ListScreen extends StatelessWidget {
             onTap: () {
               Navigator.of(context).pushNamed(
                 AssignmentDetail.routeName,
-                arguments: index
+                arguments: assignmentsData.loadedAssignment[index]
               );
             },
           );
