@@ -1,5 +1,5 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../widgets/app_drawer.dart';
 
@@ -23,12 +23,15 @@ class _HomeScreenState extends State<HomeScreen> {
     final mediaQuery = MediaQuery.of(context).size;
     final accessToken = Provider.of<Auth>(context).token;
 
-    Provider.of<DisplayData>(context).fetchSchemaData(accessToken);
+    Provider.of<DisplayData>(context)
+        .fetchSchemaData(accessToken);
 
     // ModalRoute.of(context).settings.arguments as
     return Scaffold(
       appBar: AppBar(),
-      drawer: AppDrawer(mediaQuery: mediaQuery, accessToken: accessToken),
+      drawer: AppDrawer(
+          mediaQuery: mediaQuery,
+          accessToken: accessToken),
       body: Container(
         padding: EdgeInsets.only(top: mediaQuery.height * 0.25),
         child: Center(

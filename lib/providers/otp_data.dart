@@ -14,7 +14,7 @@ class OtpData with ChangeNotifier {
   Future<void> fetchRegisterData(
       Map<String, dynamic> _requiredData) async {
     // fetching data
-    print('sjbaifhdehfuoef');
+
     print(_requiredData);
     final url = 'https://api.edifyin.teamin.in/Open/Register';
     final response = await http.get(url);
@@ -22,16 +22,16 @@ class OtpData with ChangeNotifier {
     json.decode(response.body);
 
     final postApiBody = {
-      "OrganisationCode": 'ED',
+      "OrganisationCode": _requiredData['orgCode'],
       "RegistrationType": {
-        "Id": 2,
-        "Text": 'Student'
+        "Id": _requiredData['id'],
+        "Text": _requiredData['registerAs']
       },
-      "Code": 0013,
+      "Code": _requiredData['code'],
       "MobileNumber": {
         "ContactNumberType": {"Id": 2002, "Text": "Mobile"},
         "CountryCode": 91,
-        "ContactNumber": 8511108666
+        "ContactNumber": _requiredData['mobileNo']
       }
     };
 
@@ -87,22 +87,22 @@ class OtpData with ChangeNotifier {
     final responseOtp = await http.put(
         urlOtp,
         body: {
-          "OTP": 123456,
+          "OTP": _requiredData['otp'],
           "NewPassword": "Testing2",
           "ConfirmPassword": "Testing2",
           "OrganisationCode": "ED",
           "RegistrationType": {
             "Id": _requiredData['id'],
-            "Text": 'Student'
+            "Text": _requiredData['registerAs']
           },
-          "Code": 0013,
+          "Code": _requiredData['code'],
           "MobileNumber": {
             "ContactNumberType": {
               "Id": 2002,
               "Text": "Mobile"
             },
             "CountryCode": 91,
-            "ContactNumber": 8511108666
+            "ContactNumber": _requiredData['mobileNo']
           }
         }
     );

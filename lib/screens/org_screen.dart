@@ -7,7 +7,6 @@ import '../screens/login.dart';
 import '../screens/register.dart';
 import 'package:provider/provider.dart';
 
-import './select.dart';
 import 'package:adobe_xd/page_link.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 

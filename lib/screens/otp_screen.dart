@@ -195,7 +195,7 @@ class _OtpScreenState extends State<OtpScreen> {
                           ),
                           child: TextFormField(
                             decoration: InputDecoration(
-                                labelText: 'Password',
+                                labelText: 'New Password',
                                 labelStyle: TextStyle(
                                   fontFamily: 'Calibri',
                                   fontSize: 19,
@@ -227,10 +227,23 @@ class _OtpScreenState extends State<OtpScreen> {
                           ),
                         ),
                         SizedBox(
-                          height: mediaQuery.height * 0.06,
+                          height: mediaQuery.height * 0.02,
                         ),
                         Container(
-                          width: mediaQuery.width * 0.65,
+                          width: mediaQuery.width * 0.8,
+                          padding: EdgeInsets.only(
+                              left: 5, right: 10),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(6.0),
+                            color: const Color(0xffffffff),
+                            boxShadow: [
+                              BoxShadow(
+                                color: const Color(0x29000000),
+                                offset: Offset(0, 3),
+                                blurRadius: 6,
+                              ),
+                            ],
+                          ),
                           child: TextFormField(
                             decoration: InputDecoration(
                                 labelText: 'ConfirmPassword',
@@ -259,7 +272,7 @@ class _OtpScreenState extends State<OtpScreen> {
                           ),
                         ),
                         SizedBox(
-                          height: mediaQuery.height * 0.2,
+                          height: mediaQuery.height * 0.05,
                         ),
                         InkWell(
                           child: Container(
@@ -297,7 +310,7 @@ class _OtpScreenState extends State<OtpScreen> {
                             ),
                           ),
                           onTap: () {
-
+                            _submit(otpData);
                           },
                         ),
                         SizedBox(

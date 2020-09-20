@@ -58,7 +58,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     }
     _formKey.currentState.save();
 
-    requiredData['code'] = int.parse(_codeController.text);
+    requiredData['code'] = _codeController.text;
     setState(() {
       isLoading = true;
     });
