@@ -50,111 +50,134 @@ class _AssignmentDetailState extends State<AssignmentDetail> {
             width: double.infinity,
             fit: BoxFit.cover,
           ),
-          Column(
-            children: <Widget>[
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 25, vertical: 35),
-                child: Row(
-                  children: [
-                    Container(
-                      width: 60,
-                      height: 60,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100),
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                            color: const Color(0x29000000),
-                            offset: Offset(0, 3),
-                            blurRadius: 6,
-                          ),
-                        ],
-                      ),
-                      child: Icon(
-                        Icons.person,
-                        color: Colors.blue,
-                        size: 35,
-                      ),
-                    ),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Assignment ${selectedData.assignmentId}',
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.grey[700],
-                              fontWeight: FontWeight.w500,
+          SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 25, vertical: 35),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 60,
+                        height: 60,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(100),
+                          color: Colors.white,
+                          boxShadow: [
+                            BoxShadow(
+                              color: const Color(0x29000000),
+                              offset: Offset(0, 3),
+                              blurRadius: 6,
                             ),
+                          ],
+                        ),
+                        child: Icon(
+                          Icons.person,
+                          color: Colors.blue,
+                          size: 35,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Assignment ${selectedData.assignmentId}',
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.grey[700],
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 8,
+                            ),
+                            Text(
+                              '${selectedData.postedBy}',
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.grey[600],
+                                fontWeight: FontWeight.w400,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  decoration: BoxDecoration(boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey[300],
+                      spreadRadius: 1,
+                      offset: Offset(1, 0),
+                      blurRadius: 1,
+                    ),
+                  ]),
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                Container(
+                  padding: EdgeInsets.only(left: 15, right: 15),
+                  child: Text(
+                    '${selectedData.description}',
+                    softWrap: true,
+                    style: TextStyle(color: Colors.grey),
+                    maxLines: 5,
+                  ),
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          isFileOpen = !isFileOpen;
+                        });
+                      },
+                      child: Column(
+                        children: [
+                          Image.asset(
+                            "assets/images/attach_icon.png",
+                            width: 25,
+                            height: 25,
+                            color: isFileOpen ? Colors.lightBlue : Colors.grey,
                           ),
                           SizedBox(
-                            height: 8,
+                            height: 12,
                           ),
                           Text(
-                            '${selectedData.postedBy}',
+                            "Attachment",
                             style: TextStyle(
-                              fontSize: 16,
+                              fontSize: 14,
                               color: Colors.grey[600],
-                              fontWeight: FontWeight.w400,
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),
-                  ],
-                ),
-              ),
-              Container(
-                decoration: BoxDecoration(boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey[300],
-                    spreadRadius: 1,
-                    offset: Offset(1, 0),
-                    blurRadius: 1,
-                  ),
-                ]),
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              Container(
-                child: Text(
-                  '${selectedData.description}',
-                  softWrap: true,
-                  style: TextStyle(color: Colors.grey),
-                  maxLines: 5,
-                ),
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        isFileOpen = !isFileOpen;
-                      });
-                    },
-                    child: Column(
+                    Column(
                       children: [
                         Image.asset(
-                          "assets/images/attach_icon.png",
+                          "assets/images/video_icon.png",
                           width: 25,
                           height: 25,
-                          color: isFileOpen ? Colors.lightBlue : Colors.grey,
+                          color: Colors.grey,
                         ),
                         SizedBox(
                           height: 12,
                         ),
                         Text(
-                          "Attachment",
+                          "Video Call",
                           style: TextStyle(
                             fontSize: 14,
                             color: Colors.grey[600],
@@ -162,191 +185,174 @@ class _AssignmentDetailState extends State<AssignmentDetail> {
                         ),
                       ],
                     ),
-                  ),
-                  Column(
-                    children: [
-                      Image.asset(
-                        "assets/images/video_icon.png",
-                        width: 25,
-                        height: 25,
-                        color: Colors.grey,
-                      ),
-                      SizedBox(
-                        height: 12,
-                      ),
-                      Text(
-                        "Video Call",
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey[600],
-                        ),
-                      ),
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      Image.asset(
-                        "assets/images/download_icon.png",
-                        width: 25,
-                        height: 25,
-                        color: Colors.grey,
-                      ),
-                      SizedBox(
-                        height: 12,
-                      ),
-                      Text(
-                        "Download",
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey[600],
-                        ),
-                      ),
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      Image.asset(
-                        "assets/images/bell_icon.png",
-                        width: 25,
-                        height: 25,
-                        color: Colors.grey,
-                      ),
-                      SizedBox(
-                        height: 12,
-                      ),
-                      Text(
-                        "Notification",
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey[600],
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              Container(
-                decoration: BoxDecoration(boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey[300],
-                    spreadRadius: 1,
-                    offset: Offset(1, 0),
-                    blurRadius: 1,
-                  ),
-                ]),
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              isFileOpen
-                  ? Column(
+                    Column(
                       children: [
-                        Row(
-                          children: [
-                            SizedBox(
-                              width: 30,
-                            ),
-                            Container(
-                              padding: EdgeInsets.all(12),
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(5),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey[200],
-                                      offset: Offset(0.6, 1),
-                                      blurRadius: 2,
-                                      spreadRadius: 2,
-                                    )
-                                  ]),
-                              child: Icon(
-                                Icons.insert_drive_file,
-                                color: Colors.lightBlue,
-                                size: 30,
-                              ),
-                            ),
-                            SizedBox(
-                              width: 25,
-                            ),
-                            Container(
-                              padding: EdgeInsets.all(12),
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(5),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey[200],
-                                      offset: Offset(0.6, 1),
-                                      blurRadius: 2,
-                                      spreadRadius: 2,
-                                    )
-                                  ]),
-                              child: Icon(
-                                Icons.add_circle,
-                                color: Colors.lightBlue,
-                                size: 30,
-                              ),
-                            ),
-                          ],
+                        Image.asset(
+                          "assets/images/download_icon.png",
+                          width: 25,
+                          height: 25,
+                          color: Colors.grey,
                         ),
                         SizedBox(
-                          height: 20,
+                          height: 12,
                         ),
-                        Row(
-                          children: [
-                            SizedBox(
-                              width: 30,
-                            ),
-                            Container(
-                              padding: EdgeInsets.all(12),
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(5),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey[200],
-                                      offset: Offset(0.6, 1),
-                                      blurRadius: 2,
-                                      spreadRadius: 2,
-                                    )
-                                  ]),
-                              child: Icon(
-                                Icons.camera_alt,
-                                color: Colors.lightBlue,
-                                size: 30,
-                              ),
-                            ),
-                            SizedBox(
-                              width: 25,
-                            ),
-                            Container(
-                              padding: EdgeInsets.all(12),
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(5),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey[200],
-                                      offset: Offset(0.6, 1),
-                                      blurRadius: 2,
-                                      spreadRadius: 2,
-                                    )
-                                  ]),
-                              child: Icon(
-                                Icons.add_circle,
-                                color: Colors.lightBlue,
-                                size: 30,
-                              ),
-                            ),
-                          ],
+                        Text(
+                          "Download",
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.grey[600],
+                          ),
                         ),
                       ],
-                    )
-                  : Container(),
-            ],
+                    ),
+                    Column(
+                      children: [
+                        Image.asset(
+                          "assets/images/bell_icon.png",
+                          width: 25,
+                          height: 25,
+                          color: Colors.grey,
+                        ),
+                        SizedBox(
+                          height: 12,
+                        ),
+                        Text(
+                          "Notification",
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.grey[600],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                Container(
+                  decoration: BoxDecoration(boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey[300],
+                      spreadRadius: 1,
+                      offset: Offset(1, 0),
+                      blurRadius: 1,
+                    ),
+                  ]),
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                isFileOpen
+                    ? Column(
+                        children: [
+                          Row(
+                            children: [
+                              SizedBox(
+                                width: 30,
+                              ),
+                              Container(
+                                padding: EdgeInsets.all(12),
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(5),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey[200],
+                                        offset: Offset(0.6, 1),
+                                        blurRadius: 2,
+                                        spreadRadius: 2,
+                                      )
+                                    ]),
+                                child: Icon(
+                                  Icons.insert_drive_file,
+                                  color: Colors.lightBlue,
+                                  size: 30,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 25,
+                              ),
+                              Container(
+                                padding: EdgeInsets.all(12),
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(5),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey[200],
+                                        offset: Offset(0.6, 1),
+                                        blurRadius: 2,
+                                        spreadRadius: 2,
+                                      )
+                                    ]),
+                                child: Icon(
+                                  Icons.add_circle,
+                                  color: Colors.lightBlue,
+                                  size: 30,
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Row(
+                            children: [
+                              SizedBox(
+                                width: 30,
+                              ),
+                              Container(
+                                padding: EdgeInsets.all(12),
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(5),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey[200],
+                                        offset: Offset(0.6, 1),
+                                        blurRadius: 2,
+                                        spreadRadius: 2,
+                                      )
+                                    ]),
+                                child: Icon(
+                                  Icons.camera_alt,
+                                  color: Colors.lightBlue,
+                                  size: 30,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 25,
+                              ),
+                              Container(
+                                padding: EdgeInsets.all(12),
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(5),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey[200],
+                                        offset: Offset(0.6, 1),
+                                        blurRadius: 2,
+                                        spreadRadius: 2,
+                                      )
+                                    ]),
+                                child: Icon(
+                                  Icons.add_circle,
+                                  color: Colors.lightBlue,
+                                  size: 30,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      )
+                    : Container(),
+                SizedBox(
+                  height: 15,
+                ),
+              ],
+            ),
           ),
         ],
       ),
