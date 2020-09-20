@@ -19,4 +19,24 @@ class Services {
       throw HttpException(error);
     }
   }
+
+  Future<Map> getUserData(String authToken) async {
+    final url = 'https://api.edifyin.teamin.in/Student/Context/Profile';
+    print("->>" + authToken);
+    try {
+      final response = await http.get(
+        url,
+        headers: {"Authorization": "Bearer " + authToken},
+      );
+      if (response.statusCode == 200) {
+        final responseData = json.decode(response.body);
+        return responseData;
+      } else {
+        print("error ->" + response.statusCode.toString());
+        throw HttpException("Data not found");
+      }
+    } catch (error) {
+      throw HttpException(error.toString());
+    }
+  }
 }
