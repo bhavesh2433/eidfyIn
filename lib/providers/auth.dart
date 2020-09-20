@@ -78,27 +78,27 @@ class Auth with ChangeNotifier {
     return authenticate(username, password);
   }
 
-  // Future<bool> tryAutoLogin() async {
-  //   final prefs = await SharedPreferences.getInstance();
-  //   if (!prefs.containsKey('userData')) {
-  //     return false;
-  //   }
-  //   final extractedData = json.decode(
-  //       prefs.getString('userData')) as Map<String, Object>;
-  //   final accessTokenExpiryDate = DateTime.parse(extractedData['accessTokenExpiresIn']);
-  //   final refreshTokenExpiryDate = DateTime.parse(extractedData['refreshTokenExpiresIn']);
-  //
-  //   if (accessTokenExpiryDate.isBefore(DateTime.now()) || refreshTokenExpiryDate.isBefore(DateTime.now()) ) {
-  //     return false;
-  //   }
-  //   _accessToken = extractedData['token'];
-  //   _refreshToken = extractedData['userId'];
-  //   _accessTokenExpiresIn = accessTokenExpiryDate;
-  //   _refreshTokenExpiresIn = refreshTokenExpiryDate;
-  //   _autoLogout();
-  //   notifyListeners();
-  //   return true;
-  // }
+  Future<bool> tryAutoLogin() async {
+    final prefs = await SharedPreferences.getInstance();
+    if (!prefs.containsKey('userData')) {
+      return false;
+    }
+    final extractedData = json.decode(
+        prefs.getString('userData')) as Map<String, Object>;
+    final accessTokenExpiryDate = DateTime.parse(extractedData['accessTokenExpiresIn']);
+    final refreshTokenExpiryDate = DateTime.parse(extractedData['refreshTokenExpiresIn']);
+
+    if (accessTokenExpiryDate.isBefore(DateTime.now()) || refreshTokenExpiryDate.isBefore(DateTime.now()) ) {
+      return false;
+    }
+    _accessToken = extractedData['access_token'];
+    _refreshToken = extractedData['refresh_token'];
+    _accessTokenExpiresIn = DateTime.parse(extractedData['accessTokenExpiresIn']);
+    _refreshTokenExpiresIn = DateTime.parse(extractedData['refreshTokenExpiresIn']);
+    _autoLogout();
+    notifyListeners();
+    return true;
+  }
 
   // fetching tokens using refresh_token
   Future<void> renewAccessToken() async{

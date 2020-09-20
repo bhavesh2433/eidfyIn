@@ -1,5 +1,6 @@
 import 'package:edifyin/models/assignmentData.dart';
 import 'package:edifyin/providers/assignments_data.dart';
+import 'package:edifyin/screens/SplashScreen2.dart';
 import 'package:edifyin/screens/assignment_detail.dart';
 import 'package:edifyin/screens/splashscreen.dart';
 
@@ -55,14 +56,14 @@ class MyApp extends StatelessWidget {
           accentColor: Colors.deepPurple,
           accentColorBrightness: Brightness.dark,
         ),
-        home: Auth().isAuth
+        home: auth.isAuth
             ? HomeScreen()
             : FutureBuilder(
     future: auth.tryAutoLogin(),
     builder: (ctx, authResultSnapshot) =>
     authResultSnapshot.connectionState ==
     ConnectionState.waiting
-    ? SplashScreen() : OrgScreen(),
+    ? SplashScreen2() : OrgScreen(),
     ),
         routes: {
           // HomeScreen.routeName: (ctx) => HomeScreen(),
