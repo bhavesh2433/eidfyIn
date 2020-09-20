@@ -24,17 +24,60 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List screenList = [
-    HomePage(),
-    Container(),
-    ProfilePage(),
-    Container(),
-    Container(),
-  ];
-
   List titleList = ["Home", "Second screen", "Profile", "Messages", "Settings"];
 
   int currentIndex = 0;
+
+  var _profileData;
+
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    getProfileData();
+  }
+
+  getProfileData() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    var data = jsonDecode(preferences.getString("userData"));
+    await Services().getUserData(data["access_token"]).then((value) async {
+      setState(() {
+        _profileData = value;
+        isLoading = false;
+      });
+    });
+  }
+
+  getPage(index) {
+    switch (index) {
+      case 0:
+        return HomePage(
+          userName: _profileData["FullName"],
+        );
+        break;
+
+      case 1:
+        return Container();
+        break;
+
+      case 2:
+        return ProfilePage(
+          profileData: _profileData,
+        );
+        break;
+
+      case 3:
+        return Container();
+        break;
+
+      case 4:
+        return Container();
+        break;
+
+      default:
+        return Container();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +105,9 @@ class _HomeScreenState extends State<HomeScreen> {
             height: MediaQuery.of(context).size.height,
             width: double.infinity,
           ),
-          screenList[currentIndex],
+          isLoading
+              ? Center(child: CircularProgressIndicator())
+              : getPage(currentIndex),
         ],
       ),
       //new code by chirag-19 Sep

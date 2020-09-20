@@ -5,6 +5,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
+  var userName;
+
+  HomePage({this.userName});
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -63,7 +67,7 @@ class _HomePageState extends State<HomePage> {
             Container(
               margin: EdgeInsets.only(top: 10),
               child: Text(
-                'Hii ---- ------',
+                'Hii ${widget.userName}',
                 style: TextStyle(
                   fontFamily: 'Calibri',
                   fontSize: 30,

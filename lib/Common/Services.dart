@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:edifyin/models/http_exception.dart';
@@ -29,6 +30,7 @@ class Services {
         headers: {"Authorization": "Bearer " + authToken},
       );
       if (response.statusCode == 200) {
+        log("response ->" + response.body);
         final responseData = json.decode(response.body);
         return responseData;
       } else {
