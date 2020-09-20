@@ -92,7 +92,7 @@ class _OrgScreenState extends State<OrgScreen> {
                 Container(
                   width: mediaQuery.height * 0.2,
                   height: mediaQuery.height * 0.2,
-                  child: Image.asset('assets/images/edifyin.png'),
+                  child: Image.asset('assets/logo_gif.gif'),
                 ),
                 Center(
                   child: Column(

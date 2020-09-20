@@ -94,8 +94,9 @@ class _HomeScreenState extends State<HomeScreen> {
           style: TextStyle(fontSize: 22, color: Colors.grey[800]),
         ),
         actions: <Widget>[
-          IconButton(icon: Icon(Icons.exit_to_app),
-              onPressed: (){
+          IconButton(
+              icon: Icon(Icons.exit_to_app),
+              onPressed: () {
                 Auth().logout();
               })
         ],
@@ -110,6 +111,7 @@ class _HomeScreenState extends State<HomeScreen> {
             "assets/images/background_image.png",
             height: MediaQuery.of(context).size.height,
             width: double.infinity,
+            fit: BoxFit.cover,
           ),
           isLoading
               ? Center(child: CircularProgressIndicator())
