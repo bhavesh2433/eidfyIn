@@ -13,10 +13,8 @@ class Services {
       if (response.statusCode == 200) {
         final responseData = json.decode(response.body);
         print("->>>" + responseData);
-        if (responseData['OrganisationCode'] == "") {
-          throw HttpException(responseData['error']['message']);
-        }
-      }
+      } else
+        throw HttpException("qr code is invalid");
     } catch (error) {
       throw HttpException(error);
     }
