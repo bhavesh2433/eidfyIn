@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:otp_text_field/style.dart';
 import '../providers/otp_data.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:provider/provider.dart';
@@ -73,239 +74,231 @@ class _OtpScreenState extends State<OtpScreen> {
 
     return Scaffold(
         backgroundColor: const Color(0xffffffff),
-        body: Form(
-          key: _formKey,
-          child: SingleChildScrollView(
-            child: Column(children: <Widget>[
-              SizedBox(
-                height: mediaQuery.height * 0.1,
-              ),
-              Container(
-                width: mediaQuery.height * 0.2,
-                height: mediaQuery.height * 0.2,
-                decoration: BoxDecoration(
-                  borderRadius:
-                      BorderRadius.all(Radius.elliptical(9999.0, 9999.0)),
-                  color: const Color(0xffffffff),
-                  boxShadow: [
-                    BoxShadow(
-                      color: const Color(0x29000000),
-                      offset: Offset(0, 3),
-                      blurRadius: 6,
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: mediaQuery.height * 0.1,
-              ),
-              Container(
-                child: Text(
-                  'OTP code',
-                  style: TextStyle(
-                    fontFamily: 'Segoe UI',
-                    fontSize: 15,
-                    color: const Color(0xff8d8d8d),
+        body: Stack(
+          children: [
+            Image.asset(
+              "assets/images/background_image.png",
+              height: MediaQuery.of(context).size.height,
+              fit: BoxFit.cover,
+              width: double.infinity,
+            ),
+            Form(
+              key: _formKey,
+              child: SingleChildScrollView(
+                child: Column(children: <Widget>[
+                  SizedBox(
+                    height: mediaQuery.height * 0.09,
                   ),
-                  textAlign: TextAlign.left,
-                ),
-              ),
-              Center(
-                child: Container(
-                  padding: EdgeInsets.all(5),
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Container(
-                            width: mediaQuery.width * 0.7,
-                            padding: EdgeInsets.only(left: 5, right: 5),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(6.0),
-                              color: const Color(0xffffffff),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: const Color(0x29000000),
-                                  offset: Offset(0, 3),
-                                  blurRadius: 6,
-                                ),
-                              ],
-                            ),
-                            child: Container(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 3, vertical: 2),
-                              width: mediaQuery.width * 0.6,
-                              child: OTPTextField(
-                                keyboardType: TextInputType.number,
-                                length: 6,
-                                onCompleted: (value) {
-                                  Focus.of(context).requestFocus(
-                                    _passwordFocusNode,
-                                  );
-                                  setState(() {
-                                    otpData['otp'] = value;
-                                  });
-                                },
-                              ),
-                            )),
-                        SizedBox(
-                          height: mediaQuery.height * 0.02,
+                  Container(
+                    width: mediaQuery.height * 0.2,
+                    height: mediaQuery.height * 0.2,
+                    decoration: BoxDecoration(
+                      borderRadius:
+                          BorderRadius.all(Radius.elliptical(9999.0, 9999.0)),
+                      color: const Color(0xffffffff),
+                      boxShadow: [
+                        BoxShadow(
+                          color: const Color(0x29000000),
+                          offset: Offset(0, 3),
+                          blurRadius: 6,
                         ),
-                        Container(
-                          padding:
-                              EdgeInsets.only(left: mediaQuery.width * 0.09),
-                          alignment: Alignment.centerLeft,
-                          child: FlatButton(
-                            child: Text(
-                              'Resend OTP ?',
-                              style: TextStyle(
-                                fontFamily: 'Calibri',
-                                fontSize: 20,
-                                color: const Color(0xff8d8d8d),
-                                decoration: TextDecoration.underline,
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: mediaQuery.height * 0.07,
+                  ),
+                  Text(
+                    "OTP Code",
+                    style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.grey,
+                        fontWeight: FontWeight.w500),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 3, vertical: 2),
+                    width: mediaQuery.width - 50,
+                    child: OTPTextField(
+                      keyboardType: TextInputType.number,
+                      length: 6,
+                      fieldStyle: FieldStyle.box,
+                      fieldWidth: 50,
+                      onCompleted: (value) {
+                        Focus.of(context).requestFocus(
+                          _passwordFocusNode,
+                        );
+                        setState(() {
+                          otpData['otp'] = value;
+                        });
+                      },
+
+                    ),
+                  ),
+                  SizedBox(
+                    height: mediaQuery.height * 0.02,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Didn't receive the OTP ?",
+                        style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.grey,
+                            fontWeight: FontWeight.w400),
+                      ),
+                      Text(
+                        " Resend again",
+                        style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.grey,
+                            fontWeight: FontWeight.w600),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.04,
+                  ),
+                  Container(
+                    width: mediaQuery.width * 0.8,
+                    padding: EdgeInsets.only(left: 5, right: 10),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(6.0),
+                      color: const Color(0xffffffff),
+                      boxShadow: [
+                        BoxShadow(
+                          color: const Color(0x29000000),
+                          offset: Offset(0, 3),
+                          blurRadius: 6,
+                        ),
+                      ],
+                    ),
+                    child: TextFormField(
+                      decoration: InputDecoration(
+                          labelText: 'New Password',
+                          labelStyle: TextStyle(
+                            fontFamily: 'Calibri',
+                            fontSize: 19,
+                            color: const Color(0x80707070),
                           ),
+                          border: InputBorder.none),
+                      obscureText: true,
+                      textAlign: TextAlign.left,
+                      controller: _passwordController,
+                      onFieldSubmitted: (_) {
+                        Focus.of(context)
+                            .requestFocus(_confirmPasswordFocusNode);
+                      },
+                      focusNode: _passwordFocusNode,
+                      textInputAction: TextInputAction.done,
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          _showErrorDialog(
+                              'Please enter a valid password', context);
+                        }
+                        return null;
+                      },
+                      onSaved: (value) {
+                        print(value);
+                        otpData['password'] = value;
+                      },
+                      textAlignVertical: TextAlignVertical.center,
+                    ),
+                  ),
+                  SizedBox(
+                    height: mediaQuery.height * 0.04,
+                  ),
+                  Container(
+                    width: mediaQuery.width * 0.8,
+                    padding: EdgeInsets.only(left: 5, right: 10),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(6.0),
+                      color: const Color(0xffffffff),
+                      boxShadow: [
+                        BoxShadow(
+                          color: const Color(0x29000000),
+                          offset: Offset(0, 3),
+                          blurRadius: 6,
                         ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.03,
-                        ),
-                        Container(
-                          width: mediaQuery.width * 0.8,
-                          padding: EdgeInsets.only(left: 5, right: 10),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(6.0),
+                      ],
+                    ),
+                    child: TextFormField(
+                      decoration: InputDecoration(
+                          labelText: "Confirm Password",
+                          labelStyle: TextStyle(
+                            fontFamily: 'Calibri',
+                            fontSize: 19,
+                            color: const Color(0x80707070),
+                          ),
+                          border: InputBorder.none),
+                      obscureText: true,
+                      textAlign: TextAlign.left,
+                      controller: _confirmPasswordController,
+                      onFieldSubmitted: (_) {
+                        Focus.of(context).dispose();
+                      },
+                      focusNode: _confirmPasswordFocusNode,
+                      textInputAction: TextInputAction.done,
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          _showErrorDialog(
+                              'Please enter a valid password', context);
+                        } else if (value != _passwordController.text) {
+                          _showErrorDialog(
+                              "Password and confirm password is not matching",
+                              context);
+                        }
+                        return null;
+                      },
+                      onSaved: (value) {
+                        otpData['confirmPassword'] = value;
+                      },
+                      textAlignVertical: TextAlignVertical.center,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 50,
+                  ),
+                  InkWell(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(6.0),
+                        color: const Color(0xff4fc7f3),
+                        boxShadow: [
+                          BoxShadow(
+                            color: const Color(0x29000000),
+                            offset: Offset(0, 3),
+                            blurRadius: 6,
+                          ),
+                        ],
+                      ),
+                      width: MediaQuery.of(context).size.width * 0.7,
+                      height: MediaQuery.of(context).size.height * 0.07,
+                      child: Center(
+                        child: Text(
+                          'Register',
+                          style: TextStyle(
+                            fontFamily: 'Segoe UI',
+                            fontSize: 22,
                             color: const Color(0xffffffff),
-                            boxShadow: [
-                              BoxShadow(
-                                color: const Color(0x29000000),
-                                offset: Offset(0, 3),
-                                blurRadius: 6,
-                              ),
-                            ],
+                            fontWeight: FontWeight.w700,
                           ),
-                          child: TextFormField(
-                            decoration: InputDecoration(
-                                labelText: 'New Password',
-                                labelStyle: TextStyle(
-                                  fontFamily: 'Calibri',
-                                  fontSize: 19,
-                                  color: const Color(0x80707070),
-                                ),
-                                border: InputBorder.none),
-                            obscureText: true,
-                            textAlign: TextAlign.left,
-                            controller: _passwordController,
-                            onFieldSubmitted: (_) {
-                              Focus.of(context)
-                                  .requestFocus(_confirmPasswordFocusNode);
-                            },
-                            focusNode: _passwordFocusNode,
-                            textInputAction: TextInputAction.done,
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                _showErrorDialog(
-                                    'Please enter a valid password', context);
-                              }
-                              return null;
-                            },
-                            onSaved: (value) {
-                              print(value);
-                              setState(() {
-                                otpData['password'] = value;
-                              });
-                            },
-                            textAlignVertical: TextAlignVertical.center,
-                          ),
+                          textAlign: TextAlign.left,
                         ),
-                        SizedBox(
-                          height: mediaQuery.height * 0.02,
-                        ),
-                        Container(
-                          width: mediaQuery.width * 0.8,
-                          padding: EdgeInsets.only(left: 5, right: 10),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(6.0),
-                            color: const Color(0xffffffff),
-                            boxShadow: [
-                              BoxShadow(
-                                color: const Color(0x29000000),
-                                offset: Offset(0, 3),
-                                blurRadius: 6,
-                              ),
-                            ],
-                          ),
-                          child: TextFormField(
-                            decoration: InputDecoration(
-                                labelText: 'ConfirmPassword',
-                                labelStyle: TextStyle(
-                                  fontFamily: 'Calibri',
-                                  fontSize: 19,
-                                  color: const Color(0x80707070),
-                                ),
-                                border: InputBorder.none),
-                            controller: _confirmPasswordController,
-                            onFieldSubmitted: (_) {},
-                            textInputAction: TextInputAction.next,
-                            validator: (value) {
-                              if (value.isEmpty) {}
-                              return null;
-                            },
-                            obscureText: true,
-                            onSaved: (value) {
-                              // print(value);
-                              setState(() {
-                                otpData['confirmPassword'] = value;
-                              });
-                            },
-                            textAlign: TextAlign.start,
-                            textAlignVertical: TextAlignVertical.center,
-                          ),
-                        ),
-                        SizedBox(
-                          height: mediaQuery.height * 0.05,
-                        ),
-                        InkWell(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(6.0),
-                              color: const Color(0xff4fc7f3),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: const Color(0x29000000),
-                                  offset: Offset(0, 3),
-                                  blurRadius: 6,
-                                ),
-                              ],
-                            ),
-                            width: MediaQuery.of(context).size.width * 0.7,
-                            height: MediaQuery.of(context).size.height * 0.07,
-                            child: Center(
-                              child: Text(
-                                'Register',
-                                style: TextStyle(
-                                  fontFamily: 'Segoe UI',
-                                  fontSize: 22,
-                                  color: const Color(0xffffffff),
-                                  fontWeight: FontWeight.w700,
-                                ),
-                                textAlign: TextAlign.left,
-                              ),
-                            ),
-                          ),
-                          onTap: () {
-                            _submit(otpData);
-                          },
-                        ),
-                        SizedBox(
-                          height: mediaQuery.height * 0.02,
-                        ),
-                      ]),
-                ),
+                      ),
+                    ),
+                    onTap: () {},
+                  ),
+                  SizedBox(
+                    height: mediaQuery.height * 0.02,
+                  ),
+                ]),
               ),
-            ]),
-          ),
+            ),
+          ],
         ));
   }
 }

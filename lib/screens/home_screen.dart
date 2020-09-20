@@ -93,6 +93,12 @@ class _HomeScreenState extends State<HomeScreen> {
           titleList[currentIndex],
           style: TextStyle(fontSize: 22, color: Colors.grey[800]),
         ),
+        actions: <Widget>[
+          IconButton(icon: Icon(Icons.exit_to_app),
+              onPressed: (){
+                Auth().logout();
+              })
+        ],
         centerTitle: true,
         iconTheme: IconThemeData(color: Colors.black),
         backgroundColor: Colors.white,
