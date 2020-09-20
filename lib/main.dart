@@ -1,5 +1,6 @@
 import 'package:edifyin/models/assignmentData.dart';
 import 'package:edifyin/providers/assignments_data.dart';
+import 'package:edifyin/screens/assignment_detail.dart';
 
 import './screens/otp_screen.dart';
 
@@ -60,7 +61,8 @@ class MyApp extends StatelessWidget {
           OtpScreen.routeName: (ctx) => OtpScreen(),
           RegisterScreen.routeName: (ctx) => RegisterScreen(),
           Login.routeName: (ctx) => Login(),
-          HomeScreen.routeName: (ctx) => HomeScreen()
+          HomeScreen.routeName: (ctx) => HomeScreen(),
+          AssignmentDetail.routeName: (ctx) => AssignmentDetail()
         },
       ),
     );
