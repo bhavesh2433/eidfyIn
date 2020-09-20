@@ -84,7 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final mediaQuery = MediaQuery.of(context).size;
     final accessToken = Provider.of<Auth>(context).token;
 
-    // Provider.of<DrawerDisplayData>(context).fetchSchemaData(accessToken);
+    Provider.of<DrawerDisplayData>(context).fetchSchemaData(accessToken);
 
     // ModalRoute.of(context).settings.arguments as
     return Scaffold(

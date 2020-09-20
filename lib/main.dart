@@ -1,6 +1,5 @@
-
-import './providers/assignments_data.dart';
-import './screens/assignment_detail.dart';
+import 'package:edifyin/models/assignmentData.dart';
+import 'package:edifyin/providers/assignments_data.dart';
 
 import './screens/otp_screen.dart';
 
@@ -42,8 +41,8 @@ class MyApp extends StatelessWidget {
           create: (ctx) => OtpData(),
         ),
         ChangeNotifierProvider(
-            create: (ctx) => AssignmentsData()
-        )
+          create: (ctx) => AssignmentsData(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -53,8 +52,7 @@ class MyApp extends StatelessWidget {
           accentColor: Colors.deepPurple,
           accentColorBrightness: Brightness.dark,
         ),
-        home: Auth().isAuth ?
-          HomeScreen() :OrgScreen(),
+        home: OrgScreen(),
         routes: {
           // HomeScreen.routeName: (ctx) => HomeScreen(),
           ListScreen.routeName: (ctx) => ListScreen(),
@@ -62,8 +60,7 @@ class MyApp extends StatelessWidget {
           OtpScreen.routeName: (ctx) => OtpScreen(),
           RegisterScreen.routeName: (ctx) => RegisterScreen(),
           Login.routeName: (ctx) => Login(),
-          HomeScreen.routeName: (ctx) => HomeScreen(),
-          AssignmentDetail.routeName: (ctx) => AssignmentDetail()
+          HomeScreen.routeName: (ctx) => HomeScreen()
         },
       ),
     );
