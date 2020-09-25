@@ -89,7 +89,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
     // ModalRoute.of(context).settings.arguments as
     return Scaffold(
-        drawer: AppDrawer(mediaQuery: mediaQuery, accessToken: accessToken),
         body: isLoading
             ? Center(child: CircularProgressIndicator())
             : getPage(currentIndex),
