@@ -21,7 +21,7 @@ class _bottomNavigationCustomState extends State<bottomNavigationCustom> {
     return Container(
       height: 70,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: appColor,
         boxShadow: [
           BoxShadow(
             color: Colors.grey[200],
@@ -38,11 +38,16 @@ class _bottomNavigationCustomState extends State<bottomNavigationCustom> {
               widget.onTap(0);
             },
             child: Container(
+              decoration: BoxDecoration(
+                color: widget.index == 0 ? Colors.white : appColor,
+                borderRadius: BorderRadius.circular(50),
+              ),
+              padding: EdgeInsets.all(10),
               child: Image.asset(
                 "assets/images/home_icon.png",
                 width: 25,
                 height: 25,
-                color: widget.index == 0 ? appColor : Colors.grey,
+                color: widget.index == 0 ? appColor : Colors.white,
               ),
             ),
           ),
@@ -50,44 +55,72 @@ class _bottomNavigationCustomState extends State<bottomNavigationCustom> {
             onTap: () {
               widget.onTap(1);
             },
-            child: Image.asset(
-              "assets/images/share_icon.png",
-              width: 25,
-              height: 25,
-              color: widget.index == 1 ? appColor : Colors.grey,
+            child: Container(
+              decoration: BoxDecoration(
+                color: widget.index == 1 ? Colors.white : appColor,
+                borderRadius: BorderRadius.circular(50),
+              ),
+              padding: EdgeInsets.all(10),
+              child: Image.asset(
+                "assets/images/share_icon.png",
+                width: 25,
+                height: 25,
+                color: widget.index == 1 ? appColor : Colors.white,
+              ),
             ),
           ),
           GestureDetector(
             onTap: () {
               widget.onTap(2);
             },
-            child: Image.asset(
-              "assets/images/profile_icon.png",
-              width: 25,
-              height: 25,
-              color: widget.index == 2 ? appColor : Colors.grey,
+            child: Container(
+              decoration: BoxDecoration(
+                color: widget.index == 2 ? Colors.white : appColor,
+                borderRadius: BorderRadius.circular(50),
+              ),
+              padding: EdgeInsets.all(10),
+              child: Image.asset(
+                "assets/images/profile_icon.png",
+                width: 25,
+                height: 25,
+                color: widget.index == 2 ? appColor : Colors.white,
+              ),
             ),
           ),
           GestureDetector(
             onTap: () {
               widget.onTap(3);
             },
-            child: Image.asset(
-              "assets/images/chat_icon.png",
-              width: 25,
-              height: 25,
-              color: widget.index == 3 ? appColor : Colors.grey,
+            child: Container(
+              decoration: BoxDecoration(
+                color: widget.index == 3 ? Colors.white : appColor,
+                borderRadius: BorderRadius.circular(50),
+              ),
+              padding: EdgeInsets.all(10),
+              child: Image.asset(
+                "assets/images/chat_icon.png",
+                width: 25,
+                height: 25,
+                color: widget.index == 3 ? appColor : Colors.white,
+              ),
             ),
           ),
           GestureDetector(
             onTap: () {
               widget.onTap(4);
             },
-            child: Image.asset(
-              "assets/images/setting_icon.png",
-              width: 25,
-              height: 25,
-              color: widget.index == 4 ? appColor : Colors.grey,
+            child: Container(
+              decoration: BoxDecoration(
+                color: widget.index == 4 ? Colors.white : appColor,
+                borderRadius: BorderRadius.circular(50),
+              ),
+              padding: EdgeInsets.all(10),
+              child: Image.asset(
+                "assets/images/setting_icon.png",
+                width: 25,
+                height: 25,
+                color: widget.index == 4 ? appColor : Colors.white,
+              ),
             ),
           ),
         ],
