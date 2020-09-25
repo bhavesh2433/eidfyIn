@@ -137,12 +137,6 @@ class _LoginState extends State<Login> {
     return Scaffold(
       body: Stack(
         children: [
-          Image.asset(
-            "assets/images/background_image.png",
-            height: MediaQuery.of(context).size.height,
-            fit: BoxFit.cover,
-            width: double.infinity,
-          ),
           Form(
             key: _formKey,
             child: SingleChildScrollView(
