@@ -141,25 +141,6 @@ class ListScreen extends StatelessWidget {
                                   ]),
                                 );
                               },
-                              // Container(
-                              // height: mediaQuery.height * 0.2,
-                              // padding: EdgeInsets.only(left: 10, right: 10),
-                              // child: Row(
-                              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              // children: <Widget>[
-                              // Icon(Icons.person),
-                              // Container(
-                              // child: Column(
-                              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              // children: <Widget>[
-                              // Text('Assignment ${assignmentsData.loadedAssignment[index]['AssignmentId']}'),
-                              // Text('${assignmentsData.loadedAssignment[index]['PostedBy']}')
-                              // ],
-                              // ),
-                              // )
-                              // ],
-                              // ),
-                              // )
                             ),
                           ),
                         );

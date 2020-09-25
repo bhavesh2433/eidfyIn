@@ -1,6 +1,7 @@
 import 'package:edifyin/components/back_button.dart';
 import 'package:edifyin/providers/auth.dart';
 import 'package:edifyin/providers/display_data.dart';
+import 'package:edifyin/widgets/app_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
@@ -38,6 +39,7 @@ class _HomePageState extends State<HomePage> {
         iconTheme: IconThemeData(color: Colors.black),
         backgroundColor: Colors.white,
       ),
+      drawer: AppDrawer(mediaQuery: mediaQuery, accessToken: accessToken),
       body: Stack(
         children: [
           Image.asset(
