@@ -21,7 +21,7 @@ class LoginButton extends StatelessWidget {
             ),
           ],
         ),
-        width: MediaQuery.of(context).size.width * 0.7,
+        width: MediaQuery.of(context).size.width * 0.9,
         height: MediaQuery.of(context).size.height * 0.07,
         child: Center(
           child: Text(

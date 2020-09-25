@@ -1,3 +1,4 @@
+import 'package:edifyin/Common/Constants.dart';
 import 'package:flutter/material.dart';
 import '../../screens/register.dart';
 import '../../screens/org_screen.dart';
@@ -22,26 +23,19 @@ class RegisterButton extends StatelessWidget {
     return InkWell(
       child: Container(
         decoration: BoxDecoration(
+          border: Border.all(width: 1,color: Colors.grey),
           borderRadius: BorderRadius.circular(6.0),
-          color: const Color(0xff0089c4),
-          boxShadow: [
-            BoxShadow(
-              color: const Color(0x29000000),
-              offset: Offset(0, 3),
-              blurRadius: 6,
-            ),
-          ],
+          //color: const Color(0xff0089c4),
         ),
         width: mediaQuery.width * 0.7,
-        height: mediaQuery.height * 0.07,
+        height: mediaQuery.height * 0.06,
         child: Center(
           child: Text(
             'Register',
             style: TextStyle(
               fontFamily: 'Segoe UI',
-              fontSize: 25,
-              color: const Color(0xffffffff),
-              fontWeight: FontWeight.w700,
+              fontSize: 18,
+              color: appColor,
             ),
             textAlign: TextAlign.center,
           ),

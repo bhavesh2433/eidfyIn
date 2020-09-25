@@ -1,11 +1,9 @@
-
+import 'package:edifyin/Common/Constants.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../models/http_exception.dart';
 import '../screens/home_screen.dart';
 import '../components/back_button.dart';
-
-
 
 import '../widgets/modal_bottom_sheet.dart';
 import '../components/login_screen_components/login_button.dart';
@@ -16,6 +14,7 @@ import 'package:provider/provider.dart';
 
 class Login extends StatefulWidget {
   static const routeName = '/login';
+
   Login({
     Key key,
   }) : super(key: key);
@@ -35,10 +34,7 @@ class _LoginState extends State<Login> {
     'password': '',
   };
 
-  Map<String, String> otpData = {
-    'orgCode': '',
-    'registrationTypeText': ''
-  };
+  Map<String, String> otpData = {'orgCode': '', 'registrationTypeText': ''};
 
   String _registerAs = null;
   bool _isLoading = false;
@@ -49,9 +45,7 @@ class _LoginState extends State<Login> {
     super.dispose();
   }
 
-  void setRegisterAs(
-      String selectedRegisterAs,
-      BuildContext context) {
+  void setRegisterAs(String selectedRegisterAs, BuildContext context) {
     setState(() {
       _registerAs = selectedRegisterAs;
       otpData['registrationTypeText'] = _registerAs;
@@ -66,11 +60,7 @@ class _LoginState extends State<Login> {
           context: context,
           backgroundColor: Colors.transparent,
           builder: (_) {
-            return ModalBottomSheet(
-                setRegisterAs,
-              context,
-              orgCode
-            );
+            return ModalBottomSheet(setRegisterAs, context, orgCode);
           });
   }
 
@@ -102,12 +92,8 @@ class _LoginState extends State<Login> {
 
     try {
       await Provider.of<Auth>(context, listen: false)
-          .login(
-          _authData['username'],
-          _authData['password']
-      );
-      Navigator.of(context)
-          .pushReplacementNamed(HomeScreen.routeName);
+          .login(_authData['username'], _authData['password']);
+      Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
     } on HttpException catch (error) {
       var errorMessage = 'Authentication failed';
       if (error.toString().contains('INVALID USERNAME')) {
@@ -131,48 +117,57 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context).size;
 
-    final orgCode = ModalRoute.of(context)
-        .settings.arguments as String;
+    final orgCode = ModalRoute.of(context).settings.arguments as String;
 
     return Scaffold(
+      resizeToAvoidBottomInset : false,
       body: Stack(
         children: [
           Form(
             key: _formKey,
             child: SingleChildScrollView(
-              child: Column(
-                children: <Widget>[
-                  // Transform.translate(
-                  //   offset: Offset(-120.0, 35.0),
-                  //   child: SvgPicture.string(
-                  //     '<svg viewBox="0.0 170.1 182.8 339.2" ><path transform="translate(183.32, -219.35)" d="M -1.202117919921875 689.7034912109375 L -1.202117919921875 673.0969848632813 C -1.202117919921875 672.4208984375 -0.9652442932128906 671.9002075195313 -0.6023025512695313 671.5265502929688 L -1.273345947265625 469.6636352539063 C -1.273345947265625 469.6636352539063 10.59738540649414 416.1797485351563 -58.00275039672852 406.65625 C -126.6034545898438 397.1327514648438 -170.7170257568359 366.0482788085938 -183.3209838867188 422.0003662109375 L -183.3209838867188 689.3286743164063 C -183.3209838867188 689.3286743164063 -175.7060394287109 713.6173706054688 -160.6072998046875 723.2318725585938 C -145.5090942382813 732.846923828125 -38.3757438659668 726.6300659179688 -38.3757438659668 726.6300659179688 C -38.3757438659668 726.6300659179688 -13.77724838256836 726.625 -1.029689788818359 690.6651000976563 C -1.137672424316406 690.388671875 -1.202117919921875 690.0709228515625 -1.202117919921875 689.7034912109375 Z" fill="#0098cd" fill-opacity="0.05" stroke="none" stroke-width="1" stroke-opacity="0.05" stroke-miterlimit="10" stroke-linecap="butt" /></svg>',
-                  //     allowDrawingOutsideViewBox: true,
-                  //     fit: BoxFit.fill,
-                  //   ),
-                  // ),
-                  Transform.translate(
-                    offset: Offset(-135.0, 50.0),
-                    child: BackwardButton(),
-                  ),
-                  SizedBox(
-                    height: mediaQuery.height * 0.1,
-                  ),
-                  Container(
-                    width: mediaQuery.height * 0.2,
-                    height: mediaQuery.height * 0.2,
-                    decoration: BoxDecoration(
-                      borderRadius:
-                          BorderRadius.all(Radius.elliptical(9999.0, 9999.0)),
-                      color: const Color(0xffffffff),
-                      boxShadow: [
-                        BoxShadow(
-                          color: const Color(0x29000000),
-                          offset: Offset(0, 3),
-                          blurRadius: 6,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+              children: [
+                Stack(
+                  alignment: Alignment.bottomCenter,
+                  children: [
+                    Container(
+                      child: Align(
+                        alignment: Alignment.topCenter,
+                        child: Transform.translate(
+                          offset: Offset(-135.0, 50.0),
+                          child: BackwardButton(),
                         ),
-                      ],
+                      ),
+                      height: 200,
+                      decoration: new BoxDecoration(
+                        color: appColor,
+                        boxShadow: [
+                          new BoxShadow(blurRadius: 10.0, color: Colors.grey)
+                        ],
+                        borderRadius: new BorderRadius.vertical(
+                            bottom: new Radius.elliptical(
+                                MediaQuery.of(context).size.width, 75.0)),
+                      ),
                     ),
-                  ),
+                    Column(
+                      children: [
+                        SvgPicture.asset('assets/usericon.svg', width: 45),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom:20.0,top:10),
+                          child: Text("Log In",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold)),
+                        )
+                      ],
+                    )
+                  ],
+                ),
+                Column(
+                children: <Widget>[
                   Center(
                     child: Column(
                       // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -319,7 +314,7 @@ class _LoginState extends State<Login> {
                           ),
                         ),
                         SizedBox(
-                          height: mediaQuery.height * 0.09,
+                          height: mediaQuery.height * 0.04,
                         ),
                         if (_isLoading)
                           CircularProgressIndicator()
@@ -328,39 +323,60 @@ class _LoginState extends State<Login> {
                         SizedBox(
                           height: mediaQuery.height * 0.02,
                         ),
-                        RegisterButton(checkRegisterAs, orgCode, _isLoading),
-                        SizedBox(
-                          height: mediaQuery.height * 0.04,
-                        ),
-                        InkWell(
-                          child: SizedBox(
-                            width: 178.0,
-                            child: Text(
-                              'Forgot password ?',
-                              style: TextStyle(
-                                fontFamily: 'Calibri',
-                                fontSize: 20,
-                                color: const Color(0xff707070),
+                        Row(
+                          children: [
+                            Flexible(
+                              child: Padding(
+                                padding: const EdgeInsets.all(12.0),
+                                child: InkWell(
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        width: 0.7,color: Colors.black54
+                                      ),
+                                      borderRadius: BorderRadius.circular(4.0)
+                                    ),
+                                    width: 178.0,
+                                    height: mediaQuery.height *0.06,
+                                    child: Center(
+                                      child: Text(
+                                        'Forgot ?',
+                                        style: TextStyle(
+                                          fontFamily: 'Calibri',
+                                          fontSize: 18,
+                                          color: appColor,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                  ),
+                                  onTap: () {},
+                                  // padding:
+                                  // EdgeInsets.symmetric(horizontal: 30.0, vertical: 4),
+                                  // materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                  // textColor: Theme.of(context).primaryColor,
+                                ),
                               ),
-                              textAlign: TextAlign.center,
                             ),
-                          ),
-                          onTap: () {},
-                          // padding:
-                          // EdgeInsets.symmetric(horizontal: 30.0, vertical: 4),
-                          // materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                          // textColor: Theme.of(context).primaryColor,
-                        ),
+                            Flexible(child: Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child: RegisterButton(checkRegisterAs, orgCode, _isLoading),
+                            )),
+                          ],
+                        )
                       ],
                     ),
                   ),
+                  Image.asset('assets/images/edifyin.png',width: 100)
                 ],
               ),
+              ],
+             )
             ),
           ),
+          Align(alignment:Alignment.bottomCenter,child: SvgPicture.asset('assets/bottomdesign.svg', fit: BoxFit.cover)),
         ],
       ),
     );
   }
 }
-

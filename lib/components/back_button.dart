@@ -9,8 +9,8 @@ class BackwardButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       child: Container(
-          width: 52.0,
-          height: 52.0,
+          width: 40.0,
+          height: 40.0,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.elliptical(9999.0, 9999.0)),
             color: const Color(0xffffffff),
