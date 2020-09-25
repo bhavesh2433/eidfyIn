@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:edifyin/Common/Services.dart';
+import 'package:edifyin/components/bottomNavigationCustom.dart';
 import 'package:edifyin/screens/Pages/HomePage.dart';
 import 'package:edifyin/screens/Pages/ProfilePage.dart';
 import 'package:flutter/cupertino.dart';
@@ -88,133 +89,18 @@ class _HomeScreenState extends State<HomeScreen> {
 
     // ModalRoute.of(context).settings.arguments as
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          titleList[currentIndex],
-          style: TextStyle(fontSize: 22, color: Colors.grey[800]),
-        ),
-        actions: <Widget>[
-          IconButton(
-              icon: Icon(Icons.exit_to_app),
-              onPressed: () {
-                Auth().logout();
-              })
-        ],
-        centerTitle: true,
-        iconTheme: IconThemeData(color: Colors.black),
-        backgroundColor: Colors.white,
-      ),
-      drawer: AppDrawer(mediaQuery: mediaQuery, accessToken: accessToken),
-      body: Stack(
-        children: [
-          Image.asset(
-            "assets/images/background_image.png",
-            height: MediaQuery.of(context).size.height,
-            width: double.infinity,
-            fit: BoxFit.cover,
-          ),
-          isLoading
-              ? Center(child: CircularProgressIndicator())
-              : getPage(currentIndex),
-        ],
-      ),
-      //new code by chirag-19 Sep
-      bottomNavigationBar: Container(
-        height: 70,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey[200],
-              blurRadius: 2,
-              spreadRadius: 3,
-            )
-          ],
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            GestureDetector(
-              onTap: () {
-                setState(() {
-                  currentIndex = 0;
-                });
-              },
-              child: Image.asset(
-                "assets/images/home_icon.png",
-                width: 25,
-                height: 25,
-                color: currentIndex == 0 ? Color(0xff4fc7f3) : Colors.grey,
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                setState(() {
-                  currentIndex = 1;
-                });
-              },
-              child: Image.asset(
-                "assets/images/share_icon.png",
-                width: 25,
-                height: 25,
-                color: currentIndex == 1 ? Color(0xff4fc7f3) : Colors.grey,
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                setState(() {
-                  currentIndex = 2;
-                });
-              },
-              child: Image.asset(
-                "assets/images/profile_icon.png",
-                width: 25,
-                height: 25,
-                color: currentIndex == 2 ? Color(0xff4fc7f3) : Colors.grey,
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                setState(() {
-                  currentIndex = 3;
-                });
-              },
-              child: Image.asset(
-                "assets/images/chat_icon.png",
-                width: 25,
-                height: 25,
-                color: currentIndex == 3 ? Color(0xff4fc7f3) : Colors.grey,
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                setState(() {
-                  currentIndex = 4;
-                });
-              },
-              child: Image.asset(
-                "assets/images/setting_icon.png",
-                width: 25,
-                height: 25,
-                color: currentIndex == 4 ? Color(0xff4fc7f3) : Colors.grey,
-              ),
-            ),
-          ],
-        ),
-      ),
-      //old code
-      /*bottomNavigationBar: CurvedNavigationBar(
-        items: <Widget>[
-          Icon(Icons.home),
-          Icon(Icons.message),
-          Icon(Icons.person),
-          Icon(Icons.send),
-          Icon(Icons.settings)
-        ],
-        onTap: (index) {},
-        index: 0,
-        animationDuration: Duration(milliseconds: 500),
-      ),*/
-    );
+        drawer: AppDrawer(mediaQuery: mediaQuery, accessToken: accessToken),
+        body: isLoading
+            ? Center(child: CircularProgressIndicator())
+            : getPage(currentIndex),
+        //new code by chirag-19 Sep
+        bottomNavigationBar: bottomNavigationCustom(
+          index: currentIndex,
+          onTap: (index) {
+            setState(() {
+              currentIndex = index;
+            });
+          },
+        ));
   }
 }

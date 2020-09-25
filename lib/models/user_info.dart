@@ -10,14 +10,18 @@ class Role {
 class UserInfo {
   final String name;
   final String username;
-  final Role role;
-  final String fguid;
+  final String admissionNo;
+  final Role roleNo;
+  final Role className;
+  final String section;
   final String theme;
 
   UserInfo(
-      {@required this.name,
-      @required this.username,
-      @required this.role,
-      @required this.fguid,
+      {this.name,
+      this.username,
+      this.admissionNo,
+      this.className,
+      this.roleNo,
+      this.section,
       this.theme});
 }
