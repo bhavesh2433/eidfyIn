@@ -77,12 +77,6 @@ class _OrgScreenState extends State<OrgScreen> {
       backgroundColor: const Color(0xffffffff),
       body: Stack(
         children: [
-          Image.asset(
-            "assets/images/background_image.png",
-            height: MediaQuery.of(context).size.height,
-            fit: BoxFit.cover,
-            width: double.infinity,
-          ),
           SingleChildScrollView(
             child: Column(
               children: <Widget>[
@@ -92,7 +86,7 @@ class _OrgScreenState extends State<OrgScreen> {
                 Container(
                   width: mediaQuery.height * 0.2,
                   height: mediaQuery.height * 0.2,
-                  child: Image.asset('assets/images/edifyin.png'),
+                  child: Image.asset('assets/logo_gif.gif'),
                 ),
                 Center(
                   child: Column(
@@ -155,7 +149,7 @@ class _OrgScreenState extends State<OrgScreen> {
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.all(
                                       Radius.circular(99999999)),
-                                  color: const Color(0xff127fb2),
+                                  color: const Color(0xffC2321B),
                                 ),
                                 child: Icon(
                                   Icons.arrow_forward_ios,
@@ -216,7 +210,7 @@ class _OrgScreenState extends State<OrgScreen> {
                               style: TextStyle(
                                 fontFamily: 'Calibri',
                                 fontSize: 22,
-                                color: const Color(0xff127fb2),
+                                color: const Color(0xffC2321B),
                                 fontWeight: FontWeight.w700,
                               ),
                               textAlign: TextAlign.left,
@@ -288,7 +282,7 @@ class _OrgScreenState extends State<OrgScreen> {
                 SizedBox(
                   height: mediaQuery.height * 0.08,
                 ),
-                Text(
+/*                Text(
                   'Powered By',
                   style: TextStyle(
                     fontFamily: 'Calibri',
@@ -302,12 +296,15 @@ class _OrgScreenState extends State<OrgScreen> {
                   width: mediaQuery.height * 0.2,
                   height: mediaQuery.height * 0.03,
                   child: Image.asset('assets/images/team_in.png'),
-                ),
+                ),*/
               ],
             ),
           ),
         ],
       ),
+      bottomNavigationBar: Container(
+          child:
+              SvgPicture.asset('assets/bottomdesign.svg', fit: BoxFit.cover)),
     );
   }
 }

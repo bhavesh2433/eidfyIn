@@ -30,52 +30,53 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-          create: (ctx) => OrgData(),
-        ),
-        ChangeNotifierProvider(
-          create: (ctx) => Auth(),
-        ),
-        ChangeNotifierProvider(
-          create: (ctx) => DrawerDisplayData(),
-        ),
-        ChangeNotifierProvider(
-          create: (ctx) => OtpData(),
-        ),
-        ChangeNotifierProvider(
-          create: (ctx) => AssignmentsData(),
-        ),
-      ],
-      child: Consumer<Auth>(
+        providers: [
+          ChangeNotifierProvider(
+            create: (ctx) => OrgData(),
+          ),
+          ChangeNotifierProvider(
+            create: (ctx) => Auth(),
+          ),
+          ChangeNotifierProvider(
+            create: (ctx) => DrawerDisplayData(),
+          ),
+          ChangeNotifierProvider(
+            create: (ctx) => OtpData(),
+          ),
+          ChangeNotifierProvider(
+            create: (ctx) => AssignmentsData(),
+          ),
+        ],
+        child: Consumer<Auth>(
           builder: (ctx, auth, _) => MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Chat App',
-        theme: ThemeData(
-          primarySwatch: Colors.indigo,
-          accentColor: Colors.deepPurple,
-          accentColorBrightness: Brightness.dark,
-        ),
-        home: auth.isAuth
-            ? HomeScreen()
-            : FutureBuilder(
-    future: auth.tryAutoLogin(),
-    builder: (ctx, authResultSnapshot) =>
-    authResultSnapshot.connectionState ==
-    ConnectionState.waiting
-    ? SplashScreen2() : OrgScreen(),
-    ),
-        routes: {
-          // HomeScreen.routeName: (ctx) => HomeScreen(),
-          ListScreen.routeName: (ctx) => ListScreen(),
-          OrgScreen.routeName: (ctx) => OrgScreen(),
-          OtpScreen.routeName: (ctx) => OtpScreen(),
-          RegisterScreen.routeName: (ctx) => RegisterScreen(),
-          Login.routeName: (ctx) => Login(),
-          HomeScreen.routeName: (ctx) => HomeScreen(),
-          AssignmentDetail.routeName: (ctx) => AssignmentDetail()
-        },
-      ),
-    ));
+            debugShowCheckedModeBanner: false,
+            title: 'Chat App',
+            theme: ThemeData(
+              primarySwatch: Colors.indigo,
+              accentColor: Colors.deepPurple,
+              accentColorBrightness: Brightness.dark,
+            ),
+            home: auth.isAuth
+                ? HomeScreen()
+                : FutureBuilder(
+                    future: auth.tryAutoLogin(),
+                    builder: (ctx, authResultSnapshot) =>
+                        authResultSnapshot.connectionState ==
+                                ConnectionState.waiting
+                            ? SplashScreen2()
+                            : OrgScreen(),
+                  ),
+            routes: {
+              // HomeScreen.routeName: (ctx) => HomeScreen(),
+              ListScreen.routeName: (ctx) => ListScreen(),
+              OrgScreen.routeName: (ctx) => OrgScreen(),
+              OtpScreen.routeName: (ctx) => OtpScreen(),
+              RegisterScreen.routeName: (ctx) => RegisterScreen(),
+              Login.routeName: (ctx) => Login(),
+              HomeScreen.routeName: (ctx) => HomeScreen(),
+              AssignmentDetail.routeName: (ctx) => AssignmentDetail()
+            },
+          ),
+        ));
   }
 }
